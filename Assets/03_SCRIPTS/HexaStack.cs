@@ -14,4 +14,12 @@ public class HexaStack : MonoBehaviour
         
         Jellies.Add(jelly);
     }
+
+    public void Place()
+    {
+        foreach (var jelly in Jellies)
+        {
+            jelly.DisableCollider();
+        }
+    }
 }

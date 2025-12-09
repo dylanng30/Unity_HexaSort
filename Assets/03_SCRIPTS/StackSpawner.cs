@@ -12,6 +12,28 @@ public class StackSpawner : MonoBehaviour
     [SerializeField] private int maxiumHexaAmount;
     [SerializeField] private Material[] hexaMaterials;
 
+    private int stackCounter;
+
+    private void Awake()
+    {
+        StackController.OnStackPlaced += StackPlacedCallBack;
+    }
+    private void OnDestroy()
+    {
+        StackController.OnStackPlaced -= StackPlacedCallBack;
+    }
+    private void StackPlacedCallBack(HexaCell hexaCell)
+    {
+        stackCounter++;
+
+        if(stackCounter >= spawnPoints.Length)
+        {
+            Debug.Log("All stacks placed, respawning stacks...");
+            stackCounter = 0;
+            CreateStacks();
+        }
+    }
+
     private void Start()
     {
         CreateStacks();
@@ -41,6 +63,7 @@ public class StackSpawner : MonoBehaviour
             Vector3 hexaPosition = spawnPoint.position + Vector3.up * i * Constants.HeightHexaModel;
             
             var hexaJelly = Instantiate(hexaPrefab, hexaPosition, Quaternion.identity, hexaStack.transform);
+            hexaStack.Add(hexaJelly);
             hexaJelly.RegisterStack(hexaStack);
             hexaJelly.Material = i < firstMaterialCount ? materialArray[0] : materialArray[1];
         }

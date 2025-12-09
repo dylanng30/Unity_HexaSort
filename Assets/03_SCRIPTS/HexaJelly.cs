@@ -5,7 +5,8 @@ using UnityEngine;
 public class HexaJelly : MonoBehaviour
 {
     [Header("---REFFERENCES---")]
-    [SerializeField] private new Renderer _renderer;
+    [SerializeField] private Renderer _renderer;
+    [SerializeField] private Collider _collider;
 
     public HexaStack HexaStack {get; private set;}
 
@@ -19,5 +20,7 @@ public class HexaJelly : MonoBehaviour
     {
         HexaStack = hexaStack;
     }
-    
+
+    public void DisableCollider() => _collider.enabled = false;
+
 }

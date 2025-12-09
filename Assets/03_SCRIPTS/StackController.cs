@@ -15,7 +15,10 @@ public class StackController : MonoBehaviour
     
     [Header("---DATA---")]
     private HexaCell targetHexaCell;
-    
+
+    [Header("---ACTIONS---")]
+    public static Action<HexaCell> OnStackPlaced;
+
     private HexaStack currentHexaStack;
     private Vector3 currentHexaStackInitialPosition;
     
@@ -83,10 +86,14 @@ public class StackController : MonoBehaviour
             return;
         }
         
-        currentHexaStack.transform.position = targetHexaCell.transform.position + new Vector3(0, 0.2f, 0);
+        currentHexaStack.transform.position = targetHexaCell.transform.position + new Vector3(0, 0.25f, 0);
         currentHexaStack.transform.SetParent(targetHexaCell.transform);
         
         targetHexaCell.RegisterStack(currentHexaStack);
+        currentHexaStack.Place();
+
+        OnStackPlaced?.Invoke(targetHexaCell);
+
         targetHexaCell = null;
         currentHexaStack = null;
     }
@@ -122,6 +129,7 @@ public class StackController : MonoBehaviour
         else
         {
             DraggingAboveNonOccupiedCell(hexaCell);
+            return;
         }
 
         targetHexaCell = null;

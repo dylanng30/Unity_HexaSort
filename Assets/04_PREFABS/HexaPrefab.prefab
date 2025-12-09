@@ -46,6 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _renderer: {fileID: 5113420956051618449}
+  _collider: {fileID: 2138958433060948182}
 --- !u!1001 &5852164819391358485
 PrefabInstance:
   m_ObjectHideFlags: 0
