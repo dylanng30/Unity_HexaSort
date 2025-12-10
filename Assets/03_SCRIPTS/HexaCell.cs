@@ -4,11 +4,15 @@ using UnityEngine;
 
 public class HexaCell : MonoBehaviour
 {
-    private HexaStack HexaStack;
+    public LayerMask Layer
+    {
+        get => LayerMask.GetMask(Constants.GridLayer);
+    }
+    public HexaStack HexaStack {get; private set;}
+    
     public bool IsOccupied
     {
         get => HexaStack != null;
-        private set { }
     }
 
     public void RegisterStack(HexaStack hexaStack)

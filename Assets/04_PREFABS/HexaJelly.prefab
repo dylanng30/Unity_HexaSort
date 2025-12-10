@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6380904934996647074}
-  - component: {fileID: 866820849733694215}
+  - component: {fileID: 6376651094220170584}
   m_Layer: 0
-  m_Name: HexaGrid
+  m_Name: HexaJelly
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -33,7 +33,7 @@ Transform:
   - {fileID: 6250338331723383294}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &866820849733694215
+--- !u!114 &6376651094220170584
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -42,9 +42,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 6326663164284942419}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e203d3b1efad04a4fad5ca4a5ed16dcb, type: 3}
+  m_Script: {fileID: 11500000, guid: 40005ece405946769a426b35c2786ed4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _renderer: {fileID: 5113420956051618449}
+  _collider: {fileID: 2138958433060948182}
 --- !u!1001 &5852164819391358485
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -96,14 +98,14 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 5c7a4fc401984c144bae17564dca7b3c, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: ed0a673c1d979f64997dceff84b2367e, type: 2}
+      objectReference: {fileID: 2100000, guid: 45246dd2be3e2524abcec3996345c970, type: 2}
     - target: {fileID: 919132149155446097, guid: 5c7a4fc401984c144bae17564dca7b3c, type: 3}
       propertyPath: m_Name
       value: Unity_HexaSort
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 5c7a4fc401984c144bae17564dca7b3c, type: 3}
       propertyPath: m_Layer
-      value: 10
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 5c7a4fc401984c144bae17564dca7b3c, type: 3}
       propertyPath: m_IsActive
@@ -117,6 +119,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 2138958433060948182}
   m_SourcePrefab: {fileID: 100100000, guid: 5c7a4fc401984c144bae17564dca7b3c, type: 3}
+--- !u!23 &5113420956051618449 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: 5c7a4fc401984c144bae17564dca7b3c, type: 3}
+  m_PrefabInstance: {fileID: 5852164819391358485}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6250338331723383294 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 5c7a4fc401984c144bae17564dca7b3c, type: 3}

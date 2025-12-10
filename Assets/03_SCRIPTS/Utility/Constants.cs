@@ -5,4 +5,6 @@ using UnityEngine;
 public class Constants : MonoBehaviour
 {
     public const float HeightHexaModel = 0.25f;
+    
+    public const string GridLayer = "Grid";
 }

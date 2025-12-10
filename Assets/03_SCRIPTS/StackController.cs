@@ -109,7 +109,7 @@ public class StackController : MonoBehaviour
             return;
         }
         
-        Debug.Log("[STACK CONTROLLER] DraggingAboveGround");
+        //Debug.Log("[STACK CONTROLLER] DraggingAboveGround");
         Vector3 currentHexaStackTargetPosition = hit.point + Vector3.up;
         
         currentHexaStack.transform.position = Vector3.MoveTowards(
@@ -137,7 +137,7 @@ public class StackController : MonoBehaviour
 
     private void DraggingAboveNonOccupiedCell(HexaCell hexaCell)
     {
-        Debug.Log("[STACK CONTROLLER] DraggingAboveNonOccupiedCell");
+        //Debug.Log("[STACK CONTROLLER] DraggingAboveNonOccupiedCell");
         Vector3 currentHexaStackTargetPosition = hexaCell.transform.position + Vector3.up;
         
         currentHexaStack.transform.position = Vector3.MoveTowards(
