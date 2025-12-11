@@ -17,35 +17,14 @@ public class MergeManager : MonoBehaviour
 
     private void StackPlacedCallBack(HexaCell hexaCell)
     {
-        //List<HexaCell> neighborHexaCells = GetNeighborCells(hexaCell);
-        //if (neighborHexaCells.Count <= 0)
-        //{
-        //    Debug.Log("No neighbor hexa cells");
-        //    return;
-        //}
-        
-        //Material hexaCellTopMaterial = hexaCell.HexaStack.GetTopHexaMaterial();
-
-        //List<HexaCell> similarNeighborHexaCells = GetSimilarNeighborCells(hexaCellTopMaterial, neighborHexaCells.ToArray());
-        //if (similarNeighborHexaCells.Count <= 0)
-        //{
-        //    Debug.Log("No similar neighbor hexa cells");
-        //    return;
-        //}
-
-        //List<HexaJelly> hexaJelliesToAdd = GetHexaJelliesToAdd(hexaCellTopMaterial, similarNeighborHexaCells.ToArray());
-
-        //RemoveHexaJelliesFromStack(hexaJelliesToAdd, similarNeighborHexaCells.ToArray());
-
-        //MoveHexaJelliesToStack(hexaCell, hexaJelliesToAdd);
-        
-        //CheckCompleteStack(hexaCell, hexaCellTopMaterial);
-
-
-        StartCoroutine(StartMerge(hexaCell));
+        StartCoroutine(StackPlacedCoroutine(hexaCell));
     }
 
-    private IEnumerator StartMerge(HexaCell hexaCell)
+    private IEnumerator StackPlacedCoroutine(HexaCell hexaCell)
+    {
+        yield return CheckMerge(hexaCell);
+    }
+    private IEnumerator CheckMerge(HexaCell hexaCell)
     {
         List<HexaCell> neighborHexaCells = GetNeighborCells(hexaCell);
         if (neighborHexaCells.Count <= 0)
