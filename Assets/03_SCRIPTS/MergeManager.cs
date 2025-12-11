@@ -17,31 +17,61 @@ public class MergeManager : MonoBehaviour
 
     private void StackPlacedCallBack(HexaCell hexaCell)
     {
+        //List<HexaCell> neighborHexaCells = GetNeighborCells(hexaCell);
+        //if (neighborHexaCells.Count <= 0)
+        //{
+        //    Debug.Log("No neighbor hexa cells");
+        //    return;
+        //}
+        
+        //Material hexaCellTopMaterial = hexaCell.HexaStack.GetTopHexaMaterial();
+
+        //List<HexaCell> similarNeighborHexaCells = GetSimilarNeighborCells(hexaCellTopMaterial, neighborHexaCells.ToArray());
+        //if (similarNeighborHexaCells.Count <= 0)
+        //{
+        //    Debug.Log("No similar neighbor hexa cells");
+        //    return;
+        //}
+
+        //List<HexaJelly> hexaJelliesToAdd = GetHexaJelliesToAdd(hexaCellTopMaterial, similarNeighborHexaCells.ToArray());
+
+        //RemoveHexaJelliesFromStack(hexaJelliesToAdd, similarNeighborHexaCells.ToArray());
+
+        //MoveHexaJelliesToStack(hexaCell, hexaJelliesToAdd);
+        
+        //CheckCompleteStack(hexaCell, hexaCellTopMaterial);
+
+
+        StartCoroutine(StartMerge(hexaCell));
+    }
+
+    private IEnumerator StartMerge(HexaCell hexaCell)
+    {
         List<HexaCell> neighborHexaCells = GetNeighborCells(hexaCell);
         if (neighborHexaCells.Count <= 0)
         {
             Debug.Log("No neighbor hexa cells");
-            return;
+            yield break;
         }
-        
+
         Material hexaCellTopMaterial = hexaCell.HexaStack.GetTopHexaMaterial();
 
         List<HexaCell> similarNeighborHexaCells = GetSimilarNeighborCells(hexaCellTopMaterial, neighborHexaCells.ToArray());
         if (similarNeighborHexaCells.Count <= 0)
         {
             Debug.Log("No similar neighbor hexa cells");
-            return;
+            yield break;
         }
 
         List<HexaJelly> hexaJelliesToAdd = GetHexaJelliesToAdd(hexaCellTopMaterial, similarNeighborHexaCells.ToArray());
 
         RemoveHexaJelliesFromStack(hexaJelliesToAdd, similarNeighborHexaCells.ToArray());
 
-        MoveHexaJelliesToStack(hexaCell, hexaJelliesToAdd);
-        
-        CheckCompleteStack(hexaCell, hexaCellTopMaterial);
+        yield return MoveHexaJelliesToStack(hexaCell, hexaJelliesToAdd);
 
-    }
+        CheckCompleteStack(hexaCell, hexaCellTopMaterial);
+    }   
+
     
     #region ---HELPER METHODS ---
     private List<HexaCell> GetNeighborCells(HexaCell hexaCell)
@@ -119,8 +149,9 @@ public class MergeManager : MonoBehaviour
         }
     }
 
-    private void MoveHexaJelliesToStack(HexaCell hexaCell, List<HexaJelly> hexaJelliesToAdd)
+    private IEnumerator MoveHexaJelliesToStack(HexaCell hexaCell, List<HexaJelly> hexaJelliesToAdd)
     {
+        float timeGap = 0.5f;
         float initialY = hexaCell.HexaStack.Jellies.Count * Constants.HeightHexaModel;
 
         for (int i = 0; i < hexaJelliesToAdd.Count; i++)
@@ -131,7 +162,8 @@ public class MergeManager : MonoBehaviour
             Vector3 targetLocalPosition = Vector3.up * targetY;
             
             hexaCell.HexaStack.Add(jelly);
-            jelly.transform.localPosition = targetLocalPosition;
+            jelly.MoveToStack(targetLocalPosition, timeGap);
+            yield return new WaitForSeconds(timeGap / 2);
         }
     }
 
