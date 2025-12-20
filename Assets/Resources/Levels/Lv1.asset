@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29a5500e996c43bea2899ba8221746fb, type: 3}
+  m_Name: Lv1
+  m_EditorClassIdentifier: 
+  LevelId: 1
+  GridSize: 1
+  TargetGoal: 10
+  MergeCount: 5
+  MiniumHexaAmount: 2
+  MaxiumHexaAmount: 3
+  TimeLimit: 99999
+  MoveLimit: 9999
+  Materials:
+  - {fileID: 2100000, guid: 45246dd2be3e2524abcec3996345c970, type: 2}
+  - {fileID: 2100000, guid: c6473ff2bd2f83742896f2baf1bb8eb6, type: 2}
+  - {fileID: 2100000, guid: 7f15d2a12d91c304395be8b99ac56225, type: 2}

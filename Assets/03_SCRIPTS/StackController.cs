@@ -30,7 +30,7 @@ public class StackController : MonoBehaviour
     void HandleInput()
     {
         
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && MergeManager.FinishMerge)
         {
             MouseDown();
         }
@@ -110,6 +110,7 @@ public class StackController : MonoBehaviour
         }
         
         //Debug.Log("[STACK CONTROLLER] DraggingAboveGround");
+        targetHexaCell = null;
         Vector3 currentHexaStackTargetPosition = hit.point + Vector3.up;
         
         currentHexaStack.transform.position = Vector3.MoveTowards(

@@ -31,7 +31,6 @@ public class HexaJelly : MonoBehaviour
     public void MoveToStack(Vector3 targetLocalPosition, float timeGap)
     {
         float arcHeight = 1f;
-        transform.DOLocalRotate(new Vector3(180, 0, 0), timeGap);
         transform.DOLocalJump(targetLocalPosition, arcHeight, 1, timeGap).SetEase(Ease.Linear);
     }
 

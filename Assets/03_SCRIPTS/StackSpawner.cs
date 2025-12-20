@@ -1,26 +1,36 @@
 using System.Collections.Generic;
+using HexaSort.Level;
 using UnityEngine;
 
 public class StackSpawner : MonoBehaviour
 {
+    [Header("---SET UP---")]
     [SerializeField] private Transform[] spawnPoints;
     [SerializeField] private HexaJelly hexaPrefab;
     [SerializeField] private HexaStack hexaStackPrefab;
     
-    [Header("---SETTINGS---")]
-    [SerializeField] private int miniumHexaAmount;
-    [SerializeField] private int maxiumHexaAmount;
-    [SerializeField] private Material[] hexaMaterials;
+    private int _miniumHexaAmount;
+    private int _maxiumHexaAmount;
+    private Material[] _hexaMaterials;
 
     private int stackCounter;
 
-    private void Awake()
+    private void OnEnable()
     {
         StackController.OnStackPlaced += StackPlacedCallBack;
     }
-    private void OnDestroy()
+    private void OnDisable()
     {
         StackController.OnStackPlaced -= StackPlacedCallBack;
+    }
+
+    public void Setup(int miniumHexaAmount, int maxiumHexaAmount, Material[] hexaMaterials)
+    {
+        _miniumHexaAmount = miniumHexaAmount;
+        _maxiumHexaAmount = maxiumHexaAmount;
+        _hexaMaterials = hexaMaterials;
+        
+        CreateStacks();
     }
     private void StackPlacedCallBack(HexaCell hexaCell)
     {
@@ -32,11 +42,6 @@ public class StackSpawner : MonoBehaviour
             stackCounter = 0;
             CreateStacks();
         }
-    }
-
-    private void Start()
-    {
-        CreateStacks();
     }
 
     private void CreateStacks()
@@ -52,7 +57,7 @@ public class StackSpawner : MonoBehaviour
         var hexaStack = Instantiate(hexaStackPrefab, spawnPoint.position, Quaternion.identity,spawnPoint);
         hexaStack.name = $"Stack { spawnPoint.GetSiblingIndex()}" ;
         
-        int amount = Random.Range(miniumHexaAmount, maxiumHexaAmount);
+        int amount = Random.Range(_miniumHexaAmount, _maxiumHexaAmount);
         
         int firstMaterialCount = Random.Range(0, amount);
 
@@ -72,7 +77,7 @@ public class StackSpawner : MonoBehaviour
     private Material[] GetRandomMaterials()
     {
         List<Material> materialList = new List<Material>();
-        materialList.AddRange(hexaMaterials);
+        materialList.AddRange(_hexaMaterials);
 
         if (materialList.Count <= 0)
         {

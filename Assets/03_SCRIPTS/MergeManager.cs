@@ -1,18 +1,33 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using HexaSort.Level;
 using UnityEngine;
 
 public class MergeManager : MonoBehaviour
 {
-    private void Awake()
+    private List<HexaCell> updatedHexaCells = new List<HexaCell>();
+    private int _mergeCount;
+    private Action _onScoreAdded;
+    private Action _onMove;
+
+    public static bool FinishMerge;
+    private void OnEnable()
     {
         StackController.OnStackPlaced += StackPlacedCallBack;
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
         StackController.OnStackPlaced -= StackPlacedCallBack;
+    }
+
+    public void Setup(int mergeCount, Action onScoreAdded,  Action onMove)
+    {
+        _mergeCount = mergeCount;
+        _onScoreAdded = onScoreAdded;
+        _onMove = onMove;
+        FinishMerge = true;
     }
 
     private void StackPlacedCallBack(HexaCell hexaCell)
@@ -22,14 +37,28 @@ public class MergeManager : MonoBehaviour
 
     private IEnumerator StackPlacedCoroutine(HexaCell hexaCell)
     {
-        yield return CheckMerge(hexaCell);
+        FinishMerge = false;
+        updatedHexaCells.Add(hexaCell);
+        
+        while (updatedHexaCells.Count > 0)
+        {
+            yield return CheckMerge(updatedHexaCells[0]);
+        }
+        
+        _onMove.Invoke();
+        FinishMerge = true;
     }
     private IEnumerator CheckMerge(HexaCell hexaCell)
     {
+        updatedHexaCells.Remove(hexaCell);
+
+        if (!hexaCell.IsOccupied)
+            yield break;
+        
         List<HexaCell> neighborHexaCells = GetNeighborCells(hexaCell);
         if (neighborHexaCells.Count <= 0)
         {
-            Debug.Log("No neighbor hexa cells");
+            //Debug.Log("No neighbor hexa cells");
             yield break;
         }
 
@@ -38,17 +67,19 @@ public class MergeManager : MonoBehaviour
         List<HexaCell> similarNeighborHexaCells = GetSimilarNeighborCells(hexaCellTopMaterial, neighborHexaCells.ToArray());
         if (similarNeighborHexaCells.Count <= 0)
         {
-            Debug.Log("No similar neighbor hexa cells");
+            //Debug.Log("No similar neighbor hexa cells");
             yield break;
         }
+        
+        updatedHexaCells.AddRange(similarNeighborHexaCells);
 
         List<HexaJelly> hexaJelliesToAdd = GetHexaJelliesToAdd(hexaCellTopMaterial, similarNeighborHexaCells.ToArray());
 
-        RemoveHexaJelliesFromStack(hexaJelliesToAdd, similarNeighborHexaCells.ToArray());
+        RemoveHexaJelliesFromStack(hexaJelliesToAdd, similarNeighborHexaCells.ToArray()); 
 
         yield return MoveHexaJelliesToStack(hexaCell, hexaJelliesToAdd);
 
-        CheckCompleteStack(hexaCell, hexaCellTopMaterial);
+        yield return CheckCompleteStack(hexaCell, hexaCellTopMaterial);
     }   
 
     
@@ -146,11 +177,11 @@ public class MergeManager : MonoBehaviour
         }
     }
 
-    private void CheckCompleteStack(HexaCell hexaCell, Material topMaterial)
+    private IEnumerator CheckCompleteStack(HexaCell hexaCell, Material topMaterial)
     {
-        if (hexaCell.HexaStack.Jellies.Count < 10)
+        if (hexaCell.HexaStack.Jellies.Count < _mergeCount)
         {
-            return;
+            yield break;
         }
         
         List<HexaJelly> similarHexaJellies = new List<HexaJelly>();
@@ -167,18 +198,24 @@ public class MergeManager : MonoBehaviour
             similarHexaJellies.Add(jelly);
         }
 
-        if (similarHexaJellies.Count < 10)
+        if (similarHexaJellies.Count < _mergeCount)
         {
-            return;
+            yield break;
         }
 
         while (similarHexaJellies.Count > 0)
         {
+            yield return null;
             similarHexaJellies[0].SetParent(null);
             hexaCell.HexaStack.Remove(similarHexaJellies[0]);
             DestroyImmediate(similarHexaJellies[0].gameObject);
             similarHexaJellies.RemoveAt(0);
+            
+            //Call Action
+            _onScoreAdded?.Invoke();
         }
+        
+        updatedHexaCells.Add(hexaCell);
     }
     #endregion
 
