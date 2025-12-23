@@ -11,11 +11,13 @@ public class HexaGridFactory : MonoBehaviour
     [SerializeField] private GameObject _hexaPrefab;
     
     private int _gridSize;
+    
+    private List<GameObject> _hexagons;
 
     public void Setup(int gridSize)
     {
         _gridSize = gridSize;
-        
+        _hexagons = new List<GameObject>();
         CreateGrid();
     }
     
@@ -32,9 +34,20 @@ public class HexaGridFactory : MonoBehaviour
                 if (spawnPosition.magnitude > _grid.CellToWorld(new Vector3Int(1, 0, 0)).magnitude * _gridSize) 
                     continue;
                 
-                Instantiate(_hexaPrefab, spawnPosition, Quaternion.identity, transform);
+                var hexa = Instantiate(_hexaPrefab, spawnPosition, Quaternion.identity, transform);
+                _hexagons.Add(hexa);
             }
         }
+    }
+
+    public void Clear()
+    {
+        foreach (var hexagon in _hexagons)
+        {
+            Destroy(hexagon);
+        }
+        
+        //ObjectPool
     }
     
 }

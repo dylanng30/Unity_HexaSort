@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class HexaStack : MonoBehaviour
@@ -7,6 +8,7 @@ public class HexaStack : MonoBehaviour
     public List<HexaJelly> Jellies {get; private set;}
     
     public Material GetTopHexaMaterial() => Jellies[Jellies.Count - 1].Material;
+    
     
     public void Add(HexaJelly jelly)
     {
@@ -29,7 +31,7 @@ public class HexaStack : MonoBehaviour
     public void Remove(HexaJelly jelly)
     {
         Jellies.Remove(jelly);
-
+        
         if (Jellies.Count <= 0)
         {
             DestroyImmediate(gameObject);

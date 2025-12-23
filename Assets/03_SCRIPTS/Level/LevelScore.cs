@@ -10,9 +10,8 @@ namespace HexaSort.Level
         private int currentScore;
         private int maxScore;
 
-        public LevelScore(LevelManager levelManager)
+        public LevelScore(LevelManager levelManager) : base(levelManager)
         {
-            _levelManager = levelManager;
         }
         
         public override void Setup(int value, Image image)
@@ -22,28 +21,25 @@ namespace HexaSort.Level
             currentScore = 0;
             _image = image;
             _image.fillAmount = 0;
-            currentConditionType = ConditionType.NoEnd;
             UpdateScore();
         }
 
         public void OnAddScore()
         {
-            if(currentConditionType != ConditionType.NoEnd)
+            if(_levelManager._gameManager.CurrentState != GameState.PLAYING)
                 return;
             
             currentScore++;
-            Debug.Log($"Current score {currentScore}");
+            
             UpdateScore();
 
             if (currentScore >= maxScore)
-            {
-                currentConditionType = ConditionType.GoodEnd;
-            }
+                OnConditionComplete(ConditionType.GoodEnd);
         }
 
-        public void UpdateScore()
+        private void UpdateScore()
         {
-            float progress = (float) (currentScore / maxScore);
+            float progress = (float) currentScore / maxScore;
             _image.fillAmount = progress;
         }
     }

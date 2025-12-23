@@ -22,24 +22,24 @@ namespace HexaSort
         public LevelManager LevelManager => _levelManager;
         public UIManager UIManager => _uiManager;
 
-        private GameState currentState;
+        public GameState CurrentState { get; private set; }
         private int currentLevelId;
 
         public void Awake()
         {
-            currentState = GameState.MAIN_MENU;
+            CurrentState = GameState.MAIN_MENU;
             
             _uiManager.Setup(this);
             _levelManager.Setup(this);
             
-            ChangeState(currentState);
+            ChangeState(CurrentState);
         }
 
         public void ChangeState(GameState newState)
         {
             Debug.Log($"Changing state {newState}");
-            currentState = newState;
-            GameStateChange.Invoke(currentState);
+            CurrentState = newState;
+            GameStateChange.Invoke(CurrentState);
         }
 
         public void LoadLevel(int levelId)

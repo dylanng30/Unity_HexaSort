@@ -9,7 +9,7 @@ namespace HexaSort.Level
 {
     public class LevelManager : MonoBehaviour
     {
-        private GameManager _gameManager;
+        public GameManager _gameManager;
         
         [Header("---REFERENCES---")]
         [SerializeField] private HexaGridFactory _gridFactory;
@@ -21,10 +21,10 @@ namespace HexaSort.Level
         [SerializeField] private TextMeshProUGUI _moveText;
         [SerializeField] private Image _scoreImage;
         
-        
         //Level
         public Dictionary<int, LevelSO> LevelDictionary {get; private set;}
         private LevelSO _currentLevelData;
+        
         //Conditions
         private LevelMoves _moveCondition;
         private LevelScore _scoreCondition;
@@ -70,11 +70,15 @@ namespace HexaSort.Level
             
             _currentLevelData = levelData;
             
+            //Conditions
             _scoreCondition.Setup(_currentLevelData.TargetGoal, _scoreImage);
             _moveCondition.Setup(levelData.MoveLimit, _moveText);
             
+            //Map
             _stackSpawner.Setup(levelData.MiniumHexaAmount, levelData.MaxiumHexaAmount, levelData.Materials);
             _gridFactory.Setup(levelData.GridSize);
+            
+            //Logic gameplay
             _mergeManager.Setup(levelData.MergeCount, ScoreHandler, MoveHandler);
         }
         
@@ -91,6 +95,8 @@ namespace HexaSort.Level
 
         public void CompleteLevel(ConditionType type)
         {
+            _gridFactory.Clear();
+            _stackSpawner.Clear();
             Debug.Log($"[LEVEL MANAGER] Complete Level {type}");
         }
     }

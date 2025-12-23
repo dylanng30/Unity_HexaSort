@@ -56,6 +56,7 @@ public class MergeManager : MonoBehaviour
             yield break;
         
         List<HexaCell> neighborHexaCells = GetNeighborCells(hexaCell);
+        
         if (neighborHexaCells.Count <= 0)
         {
             //Debug.Log("No neighbor hexa cells");

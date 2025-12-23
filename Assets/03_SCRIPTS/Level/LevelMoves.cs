@@ -10,15 +10,13 @@ namespace HexaSort.Level
         private int remainMoves; 
         private TextMeshProUGUI _text;
 
-        public LevelMoves(LevelManager levelManager)
+        public LevelMoves(LevelManager levelManager) : base(levelManager)
         {
-            _levelManager = levelManager;
         }
         
         public override void Setup(int value, TextMeshProUGUI text)
         {
             base.Setup(value);
-            currentConditionType = ConditionType.NoEnd;
             remainMoves = value;
             _text = text;
             UpdateText();
@@ -26,7 +24,7 @@ namespace HexaSort.Level
 
         public void OnMove()
         {
-            if(currentConditionType != ConditionType.NoEnd)
+            if(_levelManager._gameManager.CurrentState != GameState.PLAYING)
                 return;
             
             remainMoves--;
@@ -34,10 +32,7 @@ namespace HexaSort.Level
             UpdateText();
 
             if (remainMoves <= 0)
-            {
-                currentConditionType = ConditionType.BadEnd;
-                OnConditionComplete();
-            }
+                OnConditionComplete(ConditionType.BadEnd);
         }
 
         public void UpdateText()

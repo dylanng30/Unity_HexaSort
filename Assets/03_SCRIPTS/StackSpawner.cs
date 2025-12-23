@@ -32,6 +32,18 @@ public class StackSpawner : MonoBehaviour
         
         CreateStacks();
     }
+
+    public void Clear()
+    {
+        stackCounter = 0;
+        
+        foreach (Transform t in spawnPoints)
+        {
+            Destroy(t.gameObject);
+        }
+        
+        //ObjectPool
+    }
     private void StackPlacedCallBack(HexaCell hexaCell)
     {
         stackCounter++;

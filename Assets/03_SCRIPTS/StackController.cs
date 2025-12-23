@@ -29,7 +29,6 @@ public class StackController : MonoBehaviour
 
     void HandleInput()
     {
-        
         if (Input.GetMouseButtonDown(0) && MergeManager.FinishMerge)
         {
             MouseDown();

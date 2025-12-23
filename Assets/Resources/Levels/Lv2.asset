@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LevelId: 2
   GridSize: 2
-  TargetGoal: 10
+  TargetGoal: 100
   MergeCount: 10
   MiniumHexaAmount: 3
   MaxiumHexaAmount: 5
