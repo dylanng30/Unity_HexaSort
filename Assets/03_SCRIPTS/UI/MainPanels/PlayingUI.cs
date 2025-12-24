@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 
 namespace HexaSort.UI.MainPanels
 {
@@ -6,7 +7,6 @@ namespace HexaSort.UI.MainPanels
     {
         private UIManager _uiManager;
 
-        //[SerializeField] private
         public void Setup(UIManager uiManager)
         {
             _uiManager = uiManager;
@@ -14,7 +14,6 @@ namespace HexaSort.UI.MainPanels
 
         public void Show()
         {
-            //Debug.Log("PlayingUI Show");
             gameObject.SetActive(true);
         }
 
@@ -22,5 +21,6 @@ namespace HexaSort.UI.MainPanels
         {
             gameObject.SetActive(false);
         }
+
     }
 }

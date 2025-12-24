@@ -49,6 +49,11 @@ namespace HexaSort.Level
             LevelDictionary = levels.ToDictionary(l => l.LevelId, l => l);
         }
 
+        public LevelSO GetCurrentLevelData()
+        {
+            return _currentLevelData;
+        }
+
         public void LoadLevel(int levelId)
         {
             ClearCurrentLevel();

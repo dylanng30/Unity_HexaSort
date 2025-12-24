@@ -8,6 +8,7 @@ namespace HexaSort
     public enum GameState
     {
         MAIN_MENU,
+        LEVEL_BRIEF,
         PLAYING,
         PAUSE,
         GAME_OVER,
@@ -50,8 +51,8 @@ namespace HexaSort
         
         public void LoadLevel()
         {
-            ChangeState(GameState.PLAYING);
             _levelManager.LoadLevel(CurrentLevelId);
+            ChangeState(GameState.LEVEL_BRIEF);
         }
     }
 }

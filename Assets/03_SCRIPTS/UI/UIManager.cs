@@ -24,6 +24,9 @@ namespace HexaSort.UI
                 case GameState.MAIN_MENU:
                     Show<MenuUI>();
                     break;
+                case GameState.LEVEL_BRIEF:
+                    Show<LevelBriefUI>();
+                    break;
                 case GameState.PLAYING:
                     Show<PlayingUI>();
                     break;
