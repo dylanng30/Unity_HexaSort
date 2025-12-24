@@ -5,6 +5,8 @@ namespace HexaSort.UI.MainPanels
     public class PlayingUI : MonoBehaviour, IMainPanel
     {
         private UIManager _uiManager;
+
+        //[SerializeField] private
         public void Setup(UIManager uiManager)
         {
             _uiManager = uiManager;

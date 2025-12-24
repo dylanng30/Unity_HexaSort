@@ -24,12 +24,12 @@ namespace HexaSort.Level
             UpdateScore();
         }
 
-        public void OnAddScore()
+        public void OnAddScore(int scoreAmount)
         {
             if(_levelManager._gameManager.CurrentState != GameState.PLAYING)
                 return;
             
-            currentScore++;
+            currentScore += scoreAmount;
             UpdateScore();
         }
 

@@ -10,6 +10,10 @@ public class MergeManager : MonoBehaviour
     private List<HexaCell> updatedHexaCells = new List<HexaCell>();
     private int _mergeCount;
 
+    //Combo
+    private int _scorePerJelly = 1;
+    private int _currentComboCount;
+
     public static bool FinishMerge;
     private void OnEnable()
     {
@@ -37,6 +41,8 @@ public class MergeManager : MonoBehaviour
     private IEnumerator StackPlacedCoroutine(HexaCell hexaCell)
     {
         FinishMerge = false;
+
+        _currentComboCount = 0;
         updatedHexaCells.Add(hexaCell);
         
         while (updatedHexaCells.Count > 0)
@@ -205,6 +211,9 @@ public class MergeManager : MonoBehaviour
             yield break;
         }
 
+        //Combo count
+        _currentComboCount++;
+
         while (similarHexaJellies.Count > 0)
         {
             yield return null;
@@ -212,14 +221,13 @@ public class MergeManager : MonoBehaviour
             hexaCell.HexaStack.Remove(similarHexaJellies[0]);
             DestroyImmediate(similarHexaJellies[0].gameObject);
             similarHexaJellies.RemoveAt(0);
-            
-            //Call Action
-            _levelManager.AddScore();
+
+            //Add scores based on combo
+            int scoreToAdd = _scorePerJelly * _currentComboCount;
+            _levelManager.AddScore(scoreToAdd);
         }
         
         updatedHexaCells.Add(hexaCell);
     }
     #endregion
-
-    
 }

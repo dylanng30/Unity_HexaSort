@@ -86,9 +86,9 @@ namespace HexaSort.Level
         }
         
 
-        public void AddScore()
+        public void AddScore(int scoreAmount)
         {
-            _scoreCondition.OnAddScore();
+            _scoreCondition.OnAddScore(scoreAmount);
         }
 
         public void RemoveMove()
