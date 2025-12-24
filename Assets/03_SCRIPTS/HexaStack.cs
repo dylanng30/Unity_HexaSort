@@ -17,6 +17,7 @@ public class HexaStack : MonoBehaviour
         
         Jellies.Add(jelly);
         jelly.SetParent(transform);
+        jelly.transform.localRotation = Quaternion.identity;
     }
     public void Place()
     {

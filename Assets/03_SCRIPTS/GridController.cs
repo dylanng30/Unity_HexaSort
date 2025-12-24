@@ -16,6 +16,9 @@ public class GridController : MonoBehaviour
 
     private void Update()
     {
+        if(StackController.IsHoldingStack || !MergeManager.FinishMerge)
+            return;
+        
         HandleMouseInput();
         HandleTouchInput();
     }

@@ -12,6 +12,7 @@ public class LevelBriefUI : MonoBehaviour, IMainPanel
     private UIManager _uiManager;
 
     [Header("UI Elements")]
+    [SerializeField] private TextMeshProUGUI _titleText;
     [SerializeField] private TextMeshProUGUI _targetScoreText;
     [SerializeField] private TextMeshProUGUI _moveLimitText;
     [SerializeField] private TextMeshProUGUI _timeLimitText;
@@ -38,6 +39,12 @@ public class LevelBriefUI : MonoBehaviour, IMainPanel
 
         if (currentLevel != null)
         {
+            if (_titleText)
+            {
+                var title = $"--- Level {currentLevel.LevelId.ToString()} ---"; 
+                _titleText.text = title;
+            }
+                
             if (_targetScoreText) 
                 _targetScoreText.text = currentLevel.TargetGoal.ToString();
 

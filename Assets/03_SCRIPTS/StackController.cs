@@ -23,7 +23,11 @@ public class StackController : MonoBehaviour
     public static Action<HexaCell> OnStackPlaced;
 
     private HexaStack currentHexaStack;
+    
+    private Quaternion currentHexaStackInitialRotation;
     private Vector3 currentHexaStackInitialPosition;
+
+    public static bool IsHoldingStack = false;
     
     void Update()
     {
@@ -45,6 +49,7 @@ public class StackController : MonoBehaviour
         }
         else if (Input.GetMouseButtonUp(0) && currentHexaStack != null)
         {
+            IsHoldingStack = false;
             MouseUp();
         }
     }
@@ -62,9 +67,11 @@ public class StackController : MonoBehaviour
         
         var hexaJelly = hit.collider.GetComponentInParent<HexaJelly>();
         if (hexaJelly == null) return;
-
+        
+        IsHoldingStack = true;
         currentHexaStack = hexaJelly.HexaStack;
         currentHexaStackInitialPosition = currentHexaStack.transform.position;
+        currentHexaStackInitialRotation = currentHexaStack.transform.rotation;
     }
 
     private void MouseDrag()
@@ -87,12 +94,15 @@ public class StackController : MonoBehaviour
         if (targetHexaCell == null)
         {
             currentHexaStack.transform.position = currentHexaStackInitialPosition;
+            currentHexaStack.transform.rotation = currentHexaStackInitialRotation;
             currentHexaStack = null;
             return;
         }
         
         currentHexaStack.transform.position = targetHexaCell.transform.position + new Vector3(0, 0.25f, 0);
         currentHexaStack.transform.SetParent(targetHexaCell.transform);
+        
+        currentHexaStack.transform.localRotation = Quaternion.identity;
         
         targetHexaCell.RegisterStack(currentHexaStack);
         currentHexaStack.Place();
@@ -150,6 +160,8 @@ public class StackController : MonoBehaviour
             currentHexaStack.transform.position, 
             currentHexaStackTargetPosition, 
             Time.deltaTime * 20f);
+        
+        currentHexaStack.transform.rotation = hexaCell.transform.rotation;
         
         targetHexaCell = hexaCell;
     }

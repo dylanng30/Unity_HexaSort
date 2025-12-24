@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using HexaSort.Level;
 using UnityEngine;
 
@@ -180,6 +181,9 @@ public class MergeManager : MonoBehaviour
             Vector3 targetLocalPosition = Vector3.up * targetY;
             
             hexaCell.HexaStack.Add(jelly);
+            
+            jelly.transform.DOLocalRotate(Vector3.zero, timeGap / 2);
+            
             jelly.MoveToStack(targetLocalPosition, timeGap);
             yield return new WaitForSeconds(timeGap / 2);
         }

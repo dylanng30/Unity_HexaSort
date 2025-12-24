@@ -15,7 +15,6 @@ public class HexaGridFactory : MonoBehaviour
     
     private BaseObjectPool<HexaCell> _hexaCellPool;
     public List<HexaCell> HexagonCells { get; private set; }
-    
 
     public void Setup(int gridSize)
     {
