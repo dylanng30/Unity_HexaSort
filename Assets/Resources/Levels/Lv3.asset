@@ -20,4 +20,9 @@ MonoBehaviour:
   MaxiumHexaAmount: 0
   TimeLimit: 0
   MoveLimit: 100
-  Materials: []
+  Materials:
+  - {fileID: 2100000, guid: 9643a497691cc0c46a909e0e429df490, type: 2}
+  - {fileID: 2100000, guid: 713a7251e6ebdb249931d57f1bdcb315, type: 2}
+  - {fileID: 2100000, guid: 69ed2a25ce79ded45b40f97cdbfdc4ff, type: 2}
+  - {fileID: 2100000, guid: e495b8e199555ff40b476ec7a25b1282, type: 2}
+  - {fileID: 2100000, guid: 858b8c4147ef79f4c9c0e2794c12ae0d, type: 2}

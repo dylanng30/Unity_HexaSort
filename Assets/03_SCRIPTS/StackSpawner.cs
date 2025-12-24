@@ -37,11 +37,13 @@ public class StackSpawner : MonoBehaviour
     {
         stackCounter = 0;
         
-        foreach (Transform t in spawnPoints)
+        foreach (Transform spawnPoint in spawnPoints)
         {
-            Destroy(t.gameObject);
+            foreach (Transform child in spawnPoint)
+            {
+                Destroy(child.gameObject);
+            }
         }
-        
         //ObjectPool
     }
     private void StackPlacedCallBack(HexaCell hexaCell)
@@ -50,7 +52,7 @@ public class StackSpawner : MonoBehaviour
 
         if(stackCounter >= spawnPoints.Length)
         {
-            Debug.Log("All stacks placed, respawning stacks...");
+            //Debug.Log("All stacks placed, respawning stacks...");
             stackCounter = 0;
             CreateStacks();
         }

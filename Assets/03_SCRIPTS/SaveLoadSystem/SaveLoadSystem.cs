@@ -50,7 +50,7 @@ namespace HexaSort.SaveLoadSystem
             }
         }
 
-        // Hàm xóa save (dùng để test)
+
         public static void DeleteSave()
         {
             string path = Path.Combine(Application.persistentDataPath, SaveFileName);

@@ -12,7 +12,7 @@ namespace HexaSort.UI.MainPanels
 
         public void Show()
         {
-            Debug.Log("PlayingUI Show");
+            //Debug.Log("PlayingUI Show");
             gameObject.SetActive(true);
         }
 

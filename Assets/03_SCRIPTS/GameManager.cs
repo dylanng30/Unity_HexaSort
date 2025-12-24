@@ -8,10 +8,10 @@ namespace HexaSort
     public enum GameState
     {
         MAIN_MENU,
-        LEVEL_MENU,
         PLAYING,
         PAUSE,
-        GAME_OVER
+        GAME_OVER,
+        LEVEL_COMPLETED
     }
     public class GameManager : MonoBehaviour
     {
@@ -23,11 +23,12 @@ namespace HexaSort
         public UIManager UIManager => _uiManager;
 
         public GameState CurrentState { get; private set; }
-        private int currentLevelId;
+        public int CurrentLevelId {get; private set;}
 
         public void Awake()
         {
             CurrentState = GameState.MAIN_MENU;
+            CurrentLevelId = 1;
             
             _uiManager.Setup(this);
             _levelManager.Setup(this);
@@ -37,17 +38,20 @@ namespace HexaSort
 
         public void ChangeState(GameState newState)
         {
-            Debug.Log($"Changing state {newState}");
+            Debug.Log($"[GAME MANAGER] Changing state {newState}");
             CurrentState = newState;
             GameStateChange.Invoke(CurrentState);
         }
 
-        public void LoadLevel(int levelId)
+        public void CompleteLevel()
         {
-            currentLevelId = levelId;
-            ChangeState(GameState.PLAYING);
-            _levelManager.LoadLevel(currentLevelId);
+            CurrentLevelId++;
         }
         
+        public void LoadLevel()
+        {
+            ChangeState(GameState.PLAYING);
+            _levelManager.LoadLevel(CurrentLevelId);
+        }
     }
 }

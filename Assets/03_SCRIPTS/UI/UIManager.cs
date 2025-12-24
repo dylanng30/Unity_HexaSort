@@ -19,21 +19,21 @@ namespace HexaSort.UI
 
         private void OnGameStateChange(GameState newState)
         {
-            Debug.Log($"GameState changed to {newState}");
             switch (newState)
             {
                 case GameState.MAIN_MENU:
                     Show<MenuUI>();
                     break;
-                case GameState.LEVEL_MENU:
-                    Show<LevelUI>();
-                    break;
                 case GameState.PLAYING:
                     Show<PlayingUI>();
                     break;
-                case GameState.PAUSE:
-                    break;
                 case GameState.GAME_OVER:
+                    Show<GameOverUI>();
+                    break;
+                case GameState.LEVEL_COMPLETED:
+                    Show<CompletedUI>();
+                    break;
+                case GameState.PAUSE:
                     break;
             }
         }
@@ -47,14 +47,9 @@ namespace HexaSort.UI
             }
         }
 
-        public void LoadLevelPanel()
+        public void LoadLevel()
         {
-            GameManager.ChangeState(GameState.LEVEL_MENU);
-        }
-
-        public void LoadLevel(int levelId)
-        {
-            GameManager.LoadLevel(levelId);
+            GameManager.LoadLevel();
         }
 
         private void LoadUIs()
@@ -66,7 +61,6 @@ namespace HexaSort.UI
                 ui.Setup(this);
             }
         }
-        
         
     }
 }

@@ -30,11 +30,12 @@ namespace HexaSort.Level
                 return;
             
             currentScore++;
-            
             UpdateScore();
+        }
 
-            if (currentScore >= maxScore)
-                OnConditionComplete(ConditionType.GoodEnd);
+        public bool IsCompleted()
+        {
+            return currentScore >= maxScore;
         }
 
         private void UpdateScore()

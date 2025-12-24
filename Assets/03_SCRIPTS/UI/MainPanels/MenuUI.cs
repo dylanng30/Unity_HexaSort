@@ -1,4 +1,5 @@
 ﻿using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,6 +9,7 @@ namespace HexaSort.UI.MainPanels
     {
         private UIManager _uiManager;
         [SerializeField] private Button _playButton;
+        [SerializeField] private TextMeshProUGUI _levelText;
 
         private void Awake()
         {
@@ -21,8 +23,11 @@ namespace HexaSort.UI.MainPanels
 
         public void Show()
         {
-            Debug.Log("MenuUI Show");
+            //Debug.Log("MenuUI Show");
             gameObject.SetActive(true);
+            
+            string _levelId = _uiManager.GameManager.CurrentLevelId.ToString();
+            _levelText.text = "Level " + _levelId;
         }
 
         public void Hide()
@@ -32,7 +37,7 @@ namespace HexaSort.UI.MainPanels
 
         public void Play()
         {
-            _uiManager?.LoadLevelPanel();
+            _uiManager?.LoadLevel();
         }
         
     }

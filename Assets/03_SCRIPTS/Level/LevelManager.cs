@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using HexaSort.ObjectPool;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -22,7 +24,7 @@ namespace HexaSort.Level
         [SerializeField] private Image _scoreImage;
         
         //Level
-        public Dictionary<int, LevelSO> LevelDictionary {get; private set;}
+        public Dictionary<int, LevelSO> LevelDictionary { get; private set; }
         private LevelSO _currentLevelData;
         
         //Conditions
@@ -49,15 +51,16 @@ namespace HexaSort.Level
 
         public void LoadLevel(int levelId)
         {
+            ClearCurrentLevel();
+            
             if (LevelDictionary.TryGetValue(levelId, out LevelSO levelData))
             {
-                Debug.Log($"[LEVEL MANAGER]Loading Level {levelId}");
+                Debug.Log($"[LEVEL MANAGER] Loading Level {levelId}");
                 SetupLevel(levelData);
+                return;
             }
-            else
-            {
-                Debug.LogError($"Level {levelId} not found!");
-            }
+            
+            Debug.LogError($"Level {levelId} not found!");
         }
 
         private void SetupLevel(LevelSO levelData)
@@ -79,25 +82,40 @@ namespace HexaSort.Level
             _gridFactory.Setup(levelData.GridSize);
             
             //Logic gameplay
-            _mergeManager.Setup(levelData.MergeCount, ScoreHandler, MoveHandler);
+            _mergeManager.Setup(this, levelData.MergeCount);
         }
         
 
-        private void ScoreHandler()
+        public void AddScore()
         {
             _scoreCondition.OnAddScore();
         }
 
-        private void MoveHandler()
+        public void RemoveMove()
         {
             _moveCondition.OnMove();
         }
 
-        public void CompleteLevel(ConditionType type)
+        public void CheckComplete()
         {
-            _gridFactory.Clear();
-            _stackSpawner.Clear();
-            Debug.Log($"[LEVEL MANAGER] Complete Level {type}");
+            if(_scoreCondition.IsCompleted())
+            {
+                _gameManager.CompleteLevel();
+                _gameManager.ChangeState(GameState.LEVEL_COMPLETED);
+            }
+            else if (_moveCondition.IsCompleted())
+            {
+                _gameManager.ChangeState(GameState.GAME_OVER);
+            }
+        }
+        
+        private void ClearCurrentLevel()
+        {
+            if (_gridFactory != null) 
+                _gridFactory.Clear();
+            
+            if (_stackSpawner != null) 
+                _stackSpawner.Clear();
         }
     }
 }

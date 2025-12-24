@@ -3,24 +3,24 @@ using UnityEngine.UI;
 
 namespace HexaSort.UI.MainPanels
 {
-    public class GameOverUI : MonoBehaviour, IMainPanel
+    public class CompletedUI : MonoBehaviour, IMainPanel
     {
         private UIManager _uiManager;
         
-        [SerializeField] private Button _playAgainButton;
+        [SerializeField] private Button _nextLevelButton;
         [SerializeField] private Button _homeButton;
+        [SerializeField] private Button _doubleCoinButton;
         
         public void Setup(UIManager uiManager)
         {
             _uiManager = uiManager;
-            
+            _nextLevelButton.onClick.AddListener(NextLevel);
             _homeButton.onClick.AddListener(BackHome);
-            _playAgainButton.onClick.AddListener(PlayAgain);
+            _doubleCoinButton.onClick.AddListener(GetDoubleCoin);
         }
 
         public void Show()
         {
-            Debug.Log("GameOverUI Show");
             gameObject.SetActive(true);
         }
 
@@ -31,12 +31,17 @@ namespace HexaSort.UI.MainPanels
 
         private void BackHome()
         {
-            _uiManager.GameManager.ChangeState(GameState.MAIN_MENU);
+           _uiManager.GameManager.ChangeState(GameState.MAIN_MENU);
         }
 
-        private void PlayAgain()
+        private void NextLevel()
         {
-            _uiManager.GameManager.LoadLevel();
+            _uiManager.LoadLevel();
+        }
+        
+        private void GetDoubleCoin()
+        {
+            //Ads
         }
     }
 }

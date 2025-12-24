@@ -30,10 +30,12 @@ namespace HexaSort.Level
             remainMoves--;
             
             UpdateText();
-
-            if (remainMoves <= 0)
-                OnConditionComplete(ConditionType.BadEnd);
         }
+        public bool IsCompleted()
+        {
+            return remainMoves <= 0;
+        }
+        
 
         public void UpdateText()
         {

@@ -6,10 +6,9 @@ using UnityEngine;
 
 public class MergeManager : MonoBehaviour
 {
+    private LevelManager _levelManager;
     private List<HexaCell> updatedHexaCells = new List<HexaCell>();
     private int _mergeCount;
-    private Action _onScoreAdded;
-    private Action _onMove;
 
     public static bool FinishMerge;
     private void OnEnable()
@@ -22,12 +21,12 @@ public class MergeManager : MonoBehaviour
         StackController.OnStackPlaced -= StackPlacedCallBack;
     }
 
-    public void Setup(int mergeCount, Action onScoreAdded,  Action onMove)
+    public void Setup(LevelManager levelManager, int mergeCount)
     {
+        _levelManager = levelManager;
         _mergeCount = mergeCount;
-        _onScoreAdded = onScoreAdded;
-        _onMove = onMove;
         FinishMerge = true;
+        updatedHexaCells.Clear();
     }
 
     private void StackPlacedCallBack(HexaCell hexaCell)
@@ -45,8 +44,10 @@ public class MergeManager : MonoBehaviour
             yield return CheckMerge(updatedHexaCells[0]);
         }
         
-        _onMove.Invoke();
+        _levelManager.RemoveMove();
         FinishMerge = true;
+        
+        _levelManager.CheckComplete();
     }
     private IEnumerator CheckMerge(HexaCell hexaCell)
     {
@@ -213,7 +214,7 @@ public class MergeManager : MonoBehaviour
             similarHexaJellies.RemoveAt(0);
             
             //Call Action
-            _onScoreAdded?.Invoke();
+            _levelManager.AddScore();
         }
         
         updatedHexaCells.Add(hexaCell);

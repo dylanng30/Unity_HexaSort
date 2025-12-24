@@ -1,10 +1,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using HexaSort;
 using UnityEngine;
 
 public class StackController : MonoBehaviour
 {
+    [SerializeField] private GameManager _gameManager;
+    
     [Header("---SETTINGS---")]
     [SerializeField] private LayerMask hexagonLayer;
     [SerializeField] private LayerMask gridLayer;
@@ -29,6 +32,9 @@ public class StackController : MonoBehaviour
 
     void HandleInput()
     {
+        if(_gameManager.CurrentState != GameState.PLAYING)
+            return;
+        
         if (Input.GetMouseButtonDown(0) && MergeManager.FinishMerge)
         {
             MouseDown();

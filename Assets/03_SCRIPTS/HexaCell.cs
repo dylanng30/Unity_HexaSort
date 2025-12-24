@@ -19,4 +19,13 @@ public class HexaCell : MonoBehaviour
     {
         HexaStack = hexaStack;
     }
+
+    public void Clear()
+    {
+        if (HexaStack == null)
+            return;
+        
+        Destroy(HexaStack.gameObject);
+        HexaStack = null;
+    }
 }
