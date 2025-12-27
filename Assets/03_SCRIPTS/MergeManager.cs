@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using HexaSort.Level;
+using HexaSort.Utilitilies;
 using UnityEngine;
 
 public class MergeManager : MonoBehaviour
@@ -63,7 +64,10 @@ public class MergeManager : MonoBehaviour
         if (!hexaCell.IsOccupied)
             yield break;
         
-        List<HexaCell> neighborHexaCells = GetNeighborCells(hexaCell);
+        List<HexaCell> neighborHexaCells = HexaAlgorithm.GetNeighborsInRadius(_levelManager._board, hexaCell, 1);
+        
+        neighborHexaCells.Remove(hexaCell);
+        neighborHexaCells.RemoveAll(cell => cell.HexaStack == null);
         
         if (neighborHexaCells.Count <= 0)
         {
@@ -74,6 +78,7 @@ public class MergeManager : MonoBehaviour
         Material hexaCellTopMaterial = hexaCell.HexaStack.GetTopHexaMaterial();
 
         List<HexaCell> similarNeighborHexaCells = GetSimilarNeighborCells(hexaCellTopMaterial, neighborHexaCells.ToArray());
+        
         if (similarNeighborHexaCells.Count <= 0)
         {
             //Debug.Log("No similar neighbor hexa cells");
@@ -93,33 +98,19 @@ public class MergeManager : MonoBehaviour
 
     
     #region ---HELPER METHODS ---
-    private List<HexaCell> GetNeighborCells(HexaCell hexaCell)
-    {
-        LayerMask gridLayer = hexaCell.Layer;
-        
-        List<HexaCell> neighborHexaCells = new List<HexaCell>();
-        
-        Collider[] neighborColliders = Physics.OverlapSphere(hexaCell.transform.position, 1, gridLayer);
-
-        foreach (Collider col in neighborColliders)
-        {
-            HexaCell neighborCell = col.GetComponentInParent<HexaCell>();
-
-            if (!neighborCell.IsOccupied) continue;
-            if(neighborCell == hexaCell) continue;
-            
-            neighborHexaCells.Add(neighborCell);
-        }
-        
-        return neighborHexaCells;
-    }
-
+    
     private List<HexaCell> GetSimilarNeighborCells(Material hexaCellTopMaterial, HexaCell[] neighborHexaCells)
     {
         List<HexaCell> similarNeighborHexaCells = new List<HexaCell>();
 
         foreach (HexaCell neighborCell in neighborHexaCells)
         {
+            if (neighborCell.HexaStack == null) 
+                continue;
+            
+            if (neighborCell.HexaStack.Jellies == null || neighborCell.HexaStack.Jellies.Count == 0)
+                continue;
+            
             Material neighborCellTopMaterial = neighborCell.HexaStack.GetTopHexaMaterial();
 
             if (neighborCellTopMaterial.color == hexaCellTopMaterial.color)

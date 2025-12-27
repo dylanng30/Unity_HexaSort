@@ -9,6 +9,7 @@ namespace HexaSort.UI.MainPanels
         
         [SerializeField] private Button _playAgainButton;
         [SerializeField] private Button _homeButton;
+        [SerializeField] private Button _doubleCoinButton;
         
         public void Setup(UIManager uiManager)
         {
@@ -16,6 +17,7 @@ namespace HexaSort.UI.MainPanels
             
             _homeButton.onClick.AddListener(BackHome);
             _playAgainButton.onClick.AddListener(PlayAgain);
+            _doubleCoinButton.onClick.AddListener(GetDoubleCoin);
         }
 
         public void Show()
@@ -37,6 +39,11 @@ namespace HexaSort.UI.MainPanels
         private void PlayAgain()
         {
             _uiManager.GameManager.LoadLevel();
+        }
+        
+        private void GetDoubleCoin()
+        {
+            //Ads
         }
     }
 }

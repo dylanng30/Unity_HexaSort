@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using HexaSort.MapGenerators;
 using HexaSort.ObjectPool;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace HexaSort.Level
@@ -14,7 +14,8 @@ namespace HexaSort.Level
         public GameManager _gameManager;
         
         [Header("---REFERENCES---")]
-        [SerializeField] private HexaGridFactory _gridFactory;
+        private IMapGenerator _currentMapGenerator;
+        public HexaBoard _board;
         [SerializeField] private StackSpawner _stackSpawner;
         [SerializeField] private StackController _stackController;
         [SerializeField] private MergeManager _mergeManager;
@@ -31,8 +32,11 @@ namespace HexaSort.Level
         private LevelMoves _moveCondition;
         private LevelScore _scoreCondition;
         
+        
         private void Awake()
         {
+            _currentMapGenerator = new HexaMapGenerator();
+            
             _moveCondition = new LevelMoves(this);
             _scoreCondition = new LevelScore(this);
         }
@@ -84,7 +88,9 @@ namespace HexaSort.Level
             
             //Map
             _stackSpawner.Setup(levelData.MiniumHexaAmount, levelData.MaxiumHexaAmount, levelData.Materials);
-            _gridFactory.Setup(levelData.GridSize);
+            //_hexaGridGenerator.CreateGrid(levelData.GridWidth);
+            
+            _board?.Setup(_currentMapGenerator, _currentLevelData);
             
             //Logic gameplay
             _mergeManager.Setup(this, levelData.MergeCount);
@@ -116,9 +122,6 @@ namespace HexaSort.Level
         
         private void ClearCurrentLevel()
         {
-            if (_gridFactory != null) 
-                _gridFactory.Clear();
-            
             if (_stackSpawner != null) 
                 _stackSpawner.Clear();
         }

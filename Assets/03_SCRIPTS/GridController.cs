@@ -1,10 +1,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using HexaSort;
 using UnityEngine;
 
 public class GridController : MonoBehaviour
 {
+    [SerializeField] private GameManager _gameManager;
+    
     [Header("Input Settings")]
     public float sensitivity = 5.0f;
     private float currentAngle;
@@ -16,7 +19,9 @@ public class GridController : MonoBehaviour
 
     private void Update()
     {
-        if(StackController.IsHoldingStack || !MergeManager.FinishMerge)
+        if(StackController.IsHoldingStack || 
+           !MergeManager.FinishMerge || 
+           _gameManager.CurrentState != GameState.PLAYING)
             return;
         
         HandleMouseInput();

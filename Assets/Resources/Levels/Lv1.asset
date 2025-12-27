@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: Lv1
   m_EditorClassIdentifier: 
   LevelId: 1
-  GridSize: 1
+  GridWidth: 1
+  GridHeight: 1
   TargetGoal: 10
-  MergeCount: 5
+  MergeCount: 10
   MiniumHexaAmount: 2
   MaxiumHexaAmount: 3
   TimeLimit: 99999

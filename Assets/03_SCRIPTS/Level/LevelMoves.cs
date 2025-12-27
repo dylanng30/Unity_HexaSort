@@ -36,7 +36,6 @@ namespace HexaSort.Level
             return remainMoves <= 0;
         }
         
-
         public void UpdateText()
         {
             _text.text = remainMoves.ToString();

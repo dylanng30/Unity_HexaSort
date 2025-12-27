@@ -1,5 +1,5 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
+using DG.Tweening;
 using HexaSort;
 using HexaSort.Level;
 using HexaSort.UI;
@@ -11,12 +11,14 @@ public class LevelBriefUI : MonoBehaviour, IMainPanel
 {
     private UIManager _uiManager;
 
-    [Header("UI Elements")]
+    [Header("UI Elements")] 
+    [SerializeField] private Transform _modal;
     [SerializeField] private TextMeshProUGUI _titleText;
     [SerializeField] private TextMeshProUGUI _targetScoreText;
     [SerializeField] private TextMeshProUGUI _moveLimitText;
     [SerializeField] private TextMeshProUGUI _timeLimitText;
 
+    private Sequence _currentSequence;
     public void Setup(UIManager uiManager)
     {
         _uiManager = uiManager;
@@ -25,7 +27,14 @@ public class LevelBriefUI : MonoBehaviour, IMainPanel
     public void Show()
     {
         gameObject.SetActive(true);
-        StartCoroutine(StartBriefCoroutine());
+        
+        UpdateLevelInfo();
+        
+        Effects.DoPopupFX(_modal, 1, out _currentSequence);
+        _currentSequence.OnComplete(() =>
+        {
+            StartCoroutine(ChangeStateCoroutine());
+        });
     }
 
     public void Hide()
@@ -33,7 +42,7 @@ public class LevelBriefUI : MonoBehaviour, IMainPanel
         gameObject.SetActive(false);
     }
 
-    private IEnumerator StartBriefCoroutine()
+    private void UpdateLevelInfo()
     {
         LevelSO currentLevel = _uiManager.GameManager.LevelManager.GetCurrentLevelData();
 
@@ -59,9 +68,11 @@ public class LevelBriefUI : MonoBehaviour, IMainPanel
                     _timeLimitText.text = "No Limit";
             }
         }
+    }
 
+    private IEnumerator ChangeStateCoroutine()
+    {
         yield return new WaitForSeconds(3f);
-
         _uiManager.GameManager.ChangeState(GameState.PLAYING);
     }
 }

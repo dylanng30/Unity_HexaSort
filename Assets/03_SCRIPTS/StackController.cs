@@ -138,16 +138,13 @@ public class StackController : MonoBehaviour
     {
         HexaCell hexaCell = hit.collider.GetComponentInParent<HexaCell>();
 
-        if (hexaCell.IsOccupied)
-        {
-            DraggingAboveGround();
-        }
-        else
+        if (!hexaCell.IsOccupied)
         {
             DraggingAboveNonOccupiedCell(hexaCell);
             return;
         }
-
+        
+        DraggingAboveGround();
         targetHexaCell = null;
     }
 
@@ -160,7 +157,7 @@ public class StackController : MonoBehaviour
             currentHexaStack.transform.position, 
             currentHexaStackTargetPosition, 
             Time.deltaTime * 20f);
-        
+
         currentHexaStack.transform.rotation = hexaCell.transform.rotation;
         
         targetHexaCell = hexaCell;

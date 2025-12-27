@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,6 +12,8 @@ namespace HexaSort.UI.MainPanels
         private UIManager _uiManager;
         [SerializeField] private Button _playButton;
         [SerializeField] private TextMeshProUGUI _levelText;
+        
+        private Coroutine _popButtonCoroutine;
 
         private void Awake()
         {
@@ -28,6 +32,8 @@ namespace HexaSort.UI.MainPanels
             
             string _levelId = _uiManager.GameManager.CurrentLevelId.ToString();
             _levelText.text = "Level " + _levelId;
+
+            Effects.DoHeartbeatFX(_playButton.transform);
         }
 
         public void Hide()
@@ -39,6 +45,5 @@ namespace HexaSort.UI.MainPanels
         {
             _uiManager?.LoadLevel();
         }
-        
     }
 }

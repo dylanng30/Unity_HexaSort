@@ -21,6 +21,9 @@ namespace HexaSort.UI
         {
             switch (newState)
             {
+                case GameState.LOGO:
+                    Show<LogoUI>();
+                    break;
                 case GameState.MAIN_MENU:
                     Show<MenuUI>();
                     break;

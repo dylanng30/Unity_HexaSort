@@ -6,7 +6,8 @@ namespace HexaSort.Level
     public class LevelSO : ScriptableObject
     {
         public int LevelId;
-        public int GridSize;
+        public int GridWidth;
+        public int GridHeight;
         public int TargetGoal;
         public int MergeCount;
         public int MiniumHexaAmount;

@@ -13,12 +13,13 @@ MonoBehaviour:
   m_Name: Lv3
   m_EditorClassIdentifier: 
   LevelId: 3
-  GridSize: 3
-  TargetGoal: 0
-  MergeCount: 0
-  MiniumHexaAmount: 0
-  MaxiumHexaAmount: 0
-  TimeLimit: 0
+  GridWidth: 3
+  GridHeight: 3
+  TargetGoal: 100
+  MergeCount: 10
+  MiniumHexaAmount: 3
+  MaxiumHexaAmount: 5
+  TimeLimit: 9999
   MoveLimit: 100
   Materials:
   - {fileID: 2100000, guid: 9643a497691cc0c46a909e0e429df490, type: 2}
