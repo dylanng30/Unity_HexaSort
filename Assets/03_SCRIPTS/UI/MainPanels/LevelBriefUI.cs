@@ -63,7 +63,7 @@ public class LevelBriefUI : MonoBehaviour, IMainPanel
             if (_timeLimitText)
             {
                 if (currentLevel.TimeLimit > 0)
-                    _timeLimitText.text = currentLevel.TimeLimit.ToString() + "s";
+                    _timeLimitText.text = currentLevel.TimeLimit + "s";
                 else
                     _timeLimitText.text = "No Limit";
             }
@@ -73,6 +73,6 @@ public class LevelBriefUI : MonoBehaviour, IMainPanel
     private IEnumerator ChangeStateCoroutine()
     {
         yield return new WaitForSeconds(3f);
-        _uiManager.GameManager.ChangeState(GameState.PLAYING);
+        _uiManager.GameManager.ChangeState(GameState.MAIN_PLAY);
     }
 }

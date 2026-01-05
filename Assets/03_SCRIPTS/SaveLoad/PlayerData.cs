@@ -5,11 +5,17 @@ namespace HexaSort.SaveLoadSystem
     [System.Serializable]
     public class PlayerData
     {
-        public int currentUnlockedLevel;
+        public int Level;
+        public int NormalRocket;
+        public int SuperRocket;
+        public int Swap;
 
         public PlayerData()
         {
-            currentUnlockedLevel = 1;
+            Level = 1;
+            NormalRocket = 1;
+            SuperRocket = 1;
+            Swap = 1;
         }
     }
 }

@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c67d23344d1e48e38dd3674ed3d591e3, type: 3}
   m_Name: NormalRocket
   m_EditorClassIdentifier: 
-  BoosterName: 
-  BoosterDescription: 
+  BoosterName: "T\xEAn l\u1EEDa"
+  BoosterDescription: "Ph\xE1 h\u1EE7y 1 \xF4"
   BoosterType: 0
   BoosterIcon: {fileID: 0}
   price: 0

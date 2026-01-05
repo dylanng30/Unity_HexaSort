@@ -41,7 +41,7 @@ namespace HexaSort.UI.MainPanels
 
         private void BackHome()
         {
-            if (_currentSequence != null && _currentSequence.IsActive()) 
+            if (_currentSequence != null && _currentSequence.IsActive())
                 _currentSequence.Kill();
             
             Effects.DoPopdownFX(_modal, 1, out _currentSequence);

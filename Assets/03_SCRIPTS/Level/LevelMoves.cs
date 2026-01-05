@@ -1,7 +1,4 @@
-﻿using System;
-using TMPro;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using TMPro;
 
 namespace HexaSort.Level
 {
@@ -24,7 +21,7 @@ namespace HexaSort.Level
 
         public void OnMove()
         {
-            if(_levelManager._gameManager.CurrentState != GameState.PLAYING)
+            if(_levelManager._gameManager.CurrentState != GameState.MAIN_PLAY)
                 return;
             
             remainMoves--;

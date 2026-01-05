@@ -22,7 +22,6 @@ namespace HexaSort.UI.MainPanels
 
         public void Show()
         {
-            Debug.Log("GameOverUI Show");
             gameObject.SetActive(true);
         }
 

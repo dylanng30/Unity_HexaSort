@@ -9,7 +9,7 @@ namespace HexaSort.Level
         public int GridWidth;
         public int GridHeight;
         public int TargetGoal;
-        public int MergeCount;
+        //public int MergeCount;
         public int MiniumHexaAmount;
         public int MaxiumHexaAmount;
         public float TimeLimit;

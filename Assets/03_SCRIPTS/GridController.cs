@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using HexaSort;
+using HexaSort.GameStateMachine.GameStates;
 using UnityEngine;
 
 public class GridController : MonoBehaviour
@@ -19,9 +20,8 @@ public class GridController : MonoBehaviour
 
     private void Update()
     {
-        if(StackController.IsHoldingStack || 
-           !MergeManager.FinishMerge || 
-           _gameManager.CurrentState != GameState.PLAYING)
+        if(_gameManager.CurrentState != GameState.MAIN_PLAY ||
+           MainPlayGameState.IsHoldingStack)
             return;
         
         HandleMouseInput();

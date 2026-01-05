@@ -1,3 +1,6 @@
 {
-    "currentUnlockedLevel": 2
+    "Level": 1,
+    "NormalRocket": 1,
+    "SuperRocket": 1,
+    "Swap": 1
 }

@@ -1,4 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using HexaSort.Boosters;
+using HexaSort.Boosters._04_Presentation.Controllers;
+using HexaSort.GameStateMachine;
+using HexaSort.GameStateMachine.GameStates;
+using HexaSort.GameStateMachine.Interfaces;
 using HexaSort.Level;
 using HexaSort.SaveLoad;
 using HexaSort.UI;
@@ -12,9 +18,11 @@ namespace HexaSort
         LOGO,
         MAIN_MENU,
         LEVEL_BRIEF,
-        PLAYING,
+        MAIN_PLAY,
+        MERGE,
+        USE_BOOSTER,
         PAUSE,
-        GAME_OVER,
+        LEVEL_FAILED,
         LEVEL_COMPLETED
     }
     public class GameManager : MonoBehaviour
@@ -25,26 +33,37 @@ namespace HexaSort
         [SerializeField] private LevelManager _levelManager;
         public LevelManager LevelManager => _levelManager;
         public UIManager UIManager => _uiManager;
-
-        public GameState CurrentState { get; private set; }
-        public int CurrentLevelId {get; private set;}
         
-        public PlayerData currentData;
+        public GameState CurrentState { get; private set; }
         private string saveFileName = "player_save.json";
         
+        [field: SerializeField] public MergeManager MergeManager { get; private set; }
+        [field: SerializeField] public BoosterController BoosterController { get; private set; }
+        
+        private StateMachine _stateMachine;
+        private Dictionary<GameState, IGameState> _gameStates;
+        
+        public HexaCell LastPlacedHexaCell;
 
         public void Awake()
         {
+            _stateMachine = new StateMachine();
+            
             LoadGame();
+            
+            LoadGameStates();
         }
 
         private void Start()
         {
             CurrentState = GameState.LOGO;
-            CurrentLevelId = currentData.currentUnlockedLevel;
             
             _uiManager.Setup(this);
             _levelManager.Setup(this);
+            BoosterController.Setup(this);
+            
+            //MergeController.Setup(_levelManager);
+            MergeManager.Setup(_levelManager);
             
             ChangeState(CurrentState);
         }
@@ -62,42 +81,74 @@ namespace HexaSort
             }
         }
 
+        private void Update()
+        {
+            if(_stateMachine == null) 
+                return;
+            
+            _stateMachine.HandleInput();
+            _stateMachine.Update();
+        }
+
         public void ChangeState(GameState newState)
         {
-            Debug.Log($"[GAME MANAGER] Changing state {newState}");
             CurrentState = newState;
+            Debug.Log($"[GAME MANAGER] Changing state {newState}");
             GameStateChange.Invoke(CurrentState);
+            
+            if (_gameStates.ContainsKey(newState))
+            {
+                _stateMachine.ChangeState(_gameStates[CurrentState]);
+            }
         }
 
         public void CompleteLevel()
         {
-            CurrentLevelId++;
-            currentData.currentUnlockedLevel = CurrentLevelId;
+            GameContext.CurrentLevel++;
         }
         
         public void LoadLevel()
         {
-            _levelManager.LoadLevel(CurrentLevelId);
+            _levelManager.LoadLevel(GameContext.CurrentLevel);
             ChangeState(GameState.LEVEL_BRIEF);
         }
         
         public void LoadGame()
         {
             PlayerData loadedData = SaveSystem.Load<PlayerData>(saveFileName);
-
-            if (loadedData != null)
-            {
-                currentData = loadedData;
-            }
-            else
-            {
-                currentData = new PlayerData();
-                Debug.Log("Tạo dữ liệu mới.");
-            }
+            loadedData = loadedData != null ? loadedData : new PlayerData();
+            
+            GameContext.CurrentLevel = loadedData.Level;
+            GameContext.BoosterInventory[BoosterType.NormalRocket] = loadedData.NormalRocket;
+            GameContext.BoosterInventory[BoosterType.SuperRocket] = loadedData.SuperRocket;
+            GameContext.BoosterInventory[BoosterType.Swap] = loadedData.Swap;
         }
         public void SaveGame()
         {
-            SaveSystem.Save<PlayerData>(currentData, saveFileName);
+            PlayerData saveData = new PlayerData()
+            {
+                Level = GameContext.CurrentLevel,
+                NormalRocket = GameContext.BoosterInventory[BoosterType.NormalRocket],
+                SuperRocket = GameContext.BoosterInventory[BoosterType.SuperRocket],
+                Swap = GameContext.BoosterInventory[BoosterType.Swap]
+            };
+            SaveSystem.Save<PlayerData>(saveData, saveFileName);
+        }
+
+        private void LoadGameStates()
+        {
+            _gameStates = new Dictionary<GameState, IGameState>()
+            {
+                { GameState.LOGO , new LogoGameState(this)},
+                { GameState.MAIN_MENU , new MainMenuGameState(this)},
+                { GameState.LEVEL_BRIEF, new LevelBriefGameState(this)},
+                { GameState.MAIN_PLAY , new MainPlayGameState(this)},
+                { GameState.USE_BOOSTER , new UseBoosterGameState(this)},
+                { GameState.MERGE , new MergeGameState(this)},
+                { GameState.PAUSE , new PauseGameState(this)},
+                { GameState.LEVEL_COMPLETED, new LevelCompletedGameState(this)},
+                { GameState.LEVEL_FAILED, new LevelFailedGameState(this)}
+            };
         }
     }
 }

@@ -1,10 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using HexaSort.MapGenerators;
-using HexaSort.ObjectPool;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace HexaSort.Level
@@ -17,8 +15,7 @@ namespace HexaSort.Level
         private IMapGenerator _currentMapGenerator;
         public HexaBoard _board;
         [SerializeField] private StackSpawner _stackSpawner;
-        [SerializeField] private StackController _stackController;
-        [SerializeField] private MergeManager _mergeManager;
+        //[SerializeField] private MergeManager _mergeManager;
         
         [Header("---UI---")]
         [SerializeField] private TextMeshProUGUI _moveText;
@@ -93,7 +90,7 @@ namespace HexaSort.Level
             _board?.Setup(_currentMapGenerator, _currentLevelData);
             
             //Logic gameplay
-            _mergeManager.Setup(this, levelData.MergeCount);
+            //_mergeManager.Setup(this);
         }
         
 
@@ -106,18 +103,30 @@ namespace HexaSort.Level
         {
             _moveCondition.OnMove();
         }
-
-        public void CheckComplete()
+        
+        public void OnPlayerMoveFinished()
         {
-            if(_scoreCondition.IsCompleted())
+            _stackSpawner.NotifyStackPlaced();
+        }
+
+        public void CheckSpawnStacks()
+        {
+            _stackSpawner.CheckAndSpawnNewStacks();
+        }
+
+        public GameState GetLevelStatus()
+        {
+            if (_scoreCondition.IsCompleted())
             {
                 _gameManager.CompleteLevel();
-                _gameManager.ChangeState(GameState.LEVEL_COMPLETED);
+                return GameState.LEVEL_COMPLETED;
             }
-            else if (_moveCondition.IsCompleted())
+            if (_moveCondition.IsCompleted())
             {
-                _gameManager.ChangeState(GameState.GAME_OVER);
+                return GameState.LEVEL_FAILED;
             }
+
+            return GameState.MAIN_PLAY;
         }
         
         private void ClearCurrentLevel()

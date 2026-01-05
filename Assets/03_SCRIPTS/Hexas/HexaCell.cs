@@ -9,7 +9,7 @@ public class HexaCell : MonoBehaviour
     public int R;
     public int S;
     
-    public Vector3 Coordinates => new Vector3(Q, R, S);
+    public Vector3Int Coordinates => new Vector3Int(Q, R, S);
     
     public LayerMask Layer
     {

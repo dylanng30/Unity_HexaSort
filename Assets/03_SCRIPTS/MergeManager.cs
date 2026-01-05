@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using HexaSort.GameStateMachine.GameStates;
 using HexaSort.Level;
 using HexaSort.Utilitilies;
 using UnityEngine;
@@ -10,40 +11,24 @@ public class MergeManager : MonoBehaviour
 {
     private LevelManager _levelManager;
     private List<HexaCell> updatedHexaCells = new List<HexaCell>();
-    private int _mergeCount;
 
     //Combo
     private int _scorePerJelly = 1;
     private int _currentComboCount;
 
-    public static bool FinishMerge;
-    private void OnEnable()
-    {
-        StackController.OnStackPlaced += StackPlacedCallBack;
-    }
-
-    private void OnDisable()
-    {
-        StackController.OnStackPlaced -= StackPlacedCallBack;
-    }
-
-    public void Setup(LevelManager levelManager, int mergeCount)
+    public void Setup(LevelManager levelManager)
     {
         _levelManager = levelManager;
-        _mergeCount = mergeCount;
-        FinishMerge = true;
         updatedHexaCells.Clear();
     }
-
-    private void StackPlacedCallBack(HexaCell hexaCell)
+    
+    public void ExecuteMergeSequence(HexaCell startCell, Action onComplete)
     {
-        StartCoroutine(StackPlacedCoroutine(hexaCell));
+        StartCoroutine(StackPlacedCoroutine(startCell, onComplete));
     }
 
-    private IEnumerator StackPlacedCoroutine(HexaCell hexaCell)
+    private IEnumerator StackPlacedCoroutine(HexaCell hexaCell, Action onComplete)
     {
-        FinishMerge = false;
-
         _currentComboCount = 0;
         updatedHexaCells.Add(hexaCell);
         
@@ -53,9 +38,8 @@ public class MergeManager : MonoBehaviour
         }
         
         _levelManager.RemoveMove();
-        FinishMerge = true;
         
-        _levelManager.CheckComplete();
+        onComplete?.Invoke();
     }
     private IEnumerator CheckMerge(HexaCell hexaCell)
     {
@@ -173,16 +157,14 @@ public class MergeManager : MonoBehaviour
             
             hexaCell.HexaStack.Add(jelly);
             
-            jelly.transform.DOLocalRotate(Vector3.zero, timeGap / 2);
-            
             jelly.MoveToStack(targetLocalPosition, timeGap);
-            yield return new WaitForSeconds(timeGap / 2);
+            yield return new WaitForSeconds(timeGap);
         }
     }
 
     private IEnumerator CheckCompleteStack(HexaCell hexaCell, Material topMaterial)
     {
-        if (hexaCell.HexaStack.Jellies.Count < _mergeCount)
+        if (hexaCell.HexaStack.Jellies.Count < Constants.MergeThreshold)
         {
             yield break;
         }
@@ -201,7 +183,7 @@ public class MergeManager : MonoBehaviour
             similarHexaJellies.Add(jelly);
         }
 
-        if (similarHexaJellies.Count < _mergeCount)
+        if (similarHexaJellies.Count < Constants.MergeThreshold)
         {
             yield break;
         }
@@ -214,7 +196,8 @@ public class MergeManager : MonoBehaviour
             yield return null;
             similarHexaJellies[0].SetParent(null);
             hexaCell.HexaStack.Remove(similarHexaJellies[0]);
-            DestroyImmediate(similarHexaJellies[0].gameObject);
+            similarHexaJellies[0].Clear();
+            //DestroyImmediate(similarHexaJellies[0].gameObject);
             similarHexaJellies.RemoveAt(0);
 
             //Add scores based on combo

@@ -7,9 +7,9 @@ namespace HexaSort.MapGenerators
 {
     public class HexaMapGenerator : IMapGenerator
     {
-        public Dictionary<Vector3, HexaCell> CreateMap(BaseObjectPool<HexaCell> pool ,int width, int height)
+        public Dictionary<Vector3Int, HexaCell> CreateMap(BaseObjectPool<HexaCell> pool ,int width, int height)
         {
-            Dictionary<Vector3, HexaCell> HexaCellDic = new Dictionary<Vector3, HexaCell>();
+            Dictionary<Vector3Int, HexaCell> HexaCellDic = new Dictionary<Vector3Int, HexaCell>();
 
             HexaCellDic.Clear();
         
@@ -38,7 +38,7 @@ namespace HexaSort.MapGenerators
                         sDirection * s * widthCell;
                 
                     cell.transform.SetPositionAndRotation(spawnPosition, Quaternion.identity);
-                    HexaCellDic.Add(new Vector3(q, r, s), cell);
+                    HexaCellDic.Add(new Vector3Int(q, r, s), cell);
                 }
             }
             

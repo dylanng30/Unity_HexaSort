@@ -1,6 +1,4 @@
-﻿using TMPro;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine.UI;
 
 namespace HexaSort.Level
 {
@@ -26,7 +24,7 @@ namespace HexaSort.Level
 
         public void OnAddScore(int scoreAmount)
         {
-            if(_levelManager._gameManager.CurrentState != GameState.PLAYING)
+            if(_levelManager._gameManager.CurrentState != GameState.MAIN_PLAY)
                 return;
             
             currentScore += scoreAmount;

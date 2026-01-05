@@ -30,8 +30,16 @@ public class HexaJelly : MonoBehaviour
 
     public void MoveToStack(Vector3 targetLocalPosition, float timeGap)
     {
-        float arcHeight = 1f;
-        transform.DOLocalJump(targetLocalPosition, arcHeight, 1, timeGap).SetEase(Ease.Linear);
+        Effects.DoJumpMoveFX(transform, targetLocalPosition, timeGap, out var sequence);
+    }
+
+    public void Clear()
+    {
+        Effects.DoMiniatureFX(transform, 1f, out var sequence);
+        sequence.OnComplete(() =>
+        {
+            Destroy(gameObject);
+        });
     }
 
     public void DisableCollider() => _collider.enabled = false;

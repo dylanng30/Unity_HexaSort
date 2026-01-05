@@ -8,17 +8,27 @@ namespace HexaSort.Utilitilies
     {
         public const float HeightHexaModel = 0.25f;
         public const float CellSize = 1f;
-        public const string GridLayer = "Grid";
 
-        public static readonly Vector3[] HexaDirections = new Vector3[6]
+        public const int MergeThreshold = 10;
+        
+        
+        public const string GridLayer = "Grid";
+        public const string HexagonLayer = "Hexagon";
+        public const string GroundLayer = "Ground";
+
+        public static readonly Vector3Int[] HexaDirections = new Vector3Int[6]
         {
-            new Vector3(1, 0, -1),// East
-            new Vector3(1, -1, 0),// North-East
-            new Vector3(0, -1, 1),// North-West
-            new Vector3(-1, 0, 1),// West
-            new Vector3(-1, 1, 0),// South-West
-            new Vector3(0, 1, -1)// South-East
+            new Vector3Int(1, 0, -1), // East
+            new Vector3Int(1, -1, 0), // North-East
+            new Vector3Int(0, -1, 1), // North-West
+            new Vector3Int(-1, 0, 1), // West
+            new Vector3Int(-1, 1, 0), // South-West
+            new Vector3Int(0, 1, -1)  // South-East
         };
+        
+        
+        public const string BoosterDataPath = "BoosterData";
+        
     }
 }
 

@@ -29,8 +29,8 @@ namespace HexaSort.UI.MainPanels
         {
             //Debug.Log("MenuUI Show");
             gameObject.SetActive(true);
-            
-            string _levelId = _uiManager.GameManager.CurrentLevelId.ToString();
+
+            string _levelId = GameContext.CurrentLevel.ToString();
             _levelText.text = "Level " + _levelId;
 
             Effects.DoHeartbeatFX(_playButton.transform);

@@ -11,7 +11,7 @@ namespace HexaSort
     public class HexaBoard : MonoBehaviour
     {
         [SerializeField] private HexaCell _hexaCellPrefab;
-        public Dictionary<Vector3, HexaCell> Map { get; private set; }
+        public Dictionary<Vector3Int, HexaCell> Map { get; private set; }
         private IMapGenerator _currentMapGenerator;
         private BaseObjectPool<HexaCell> _pool;
 
@@ -22,6 +22,7 @@ namespace HexaSort
 
         public void Setup(IMapGenerator mapGenerator, LevelSO levelData)
         {
+            Clear();
             _currentMapGenerator = mapGenerator;
             CreateGrid(levelData.GridWidth, levelData.GridHeight);
         }

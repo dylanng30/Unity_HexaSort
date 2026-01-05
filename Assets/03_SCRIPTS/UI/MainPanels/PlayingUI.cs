@@ -1,11 +1,13 @@
 ﻿using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace HexaSort.UI.MainPanels
 {
     public class PlayingUI : MonoBehaviour, IMainPanel
     {
         private UIManager _uiManager;
+        
 
         public void Setup(UIManager uiManager)
         {
