@@ -62,6 +62,7 @@ namespace HexaSort.Boosters._04_Presentation.Controllers
         
         private void OnBoosterFinished()
         {
+            Debug.Log(currentSelectedBooster.BoosterType);
             GameContext.BoosterInventory[currentSelectedBooster.BoosterType]--;
             
             isTargeting = false;

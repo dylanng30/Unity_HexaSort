@@ -22,6 +22,7 @@ namespace HexaSort.UI.MainPanels
 
         public void Hide()
         {
+            gameObject.SetActive(false);
             /*Effects.DoInverseNotificationFX(BoosterInfo, 2f, out Sequence sequence);
             
             sequence.OnComplete(() =>

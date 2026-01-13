@@ -14,6 +14,8 @@ namespace HexaSort.Boosters.BoosterLogics
             {
                 destroyedCells[i].Clear(); 
             }
+            
+            onComplete.Invoke();
         }
     }
 }

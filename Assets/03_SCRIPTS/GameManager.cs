@@ -93,7 +93,7 @@ namespace HexaSort
         public void ChangeState(GameState newState)
         {
             CurrentState = newState;
-            Debug.Log($"[GAME MANAGER] Changing state {newState}");
+            //Debug.Log($"[GAME MANAGER] Changing state {newState}");
             GameStateChange.Invoke(CurrentState);
             
             if (_gameStates.ContainsKey(newState))

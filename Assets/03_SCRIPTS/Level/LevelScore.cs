@@ -1,4 +1,5 @@
-﻿using UnityEngine.UI;
+﻿using UnityEngine;
+using UnityEngine.UI;
 
 namespace HexaSort.Level
 {
@@ -24,7 +25,7 @@ namespace HexaSort.Level
 
         public void OnAddScore(int scoreAmount)
         {
-            if(_levelManager._gameManager.CurrentState != GameState.MAIN_PLAY)
+            if(_levelManager._gameManager.CurrentState != GameState.MERGE)
                 return;
             
             currentScore += scoreAmount;
@@ -38,6 +39,7 @@ namespace HexaSort.Level
 
         private void UpdateScore()
         {
+            Debug.Log(currentScore);
             float progress = (float) currentScore / maxScore;
             _image.fillAmount = progress;
         }

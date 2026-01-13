@@ -9,6 +9,8 @@ namespace HexaSort.Boosters.BoosterLogics
         public void Execute(HexaBoard board, HexaCell cell, Action onComplete)
         {
             cell.Clear();
+            
+            onComplete.Invoke();
         }
     }
 }
