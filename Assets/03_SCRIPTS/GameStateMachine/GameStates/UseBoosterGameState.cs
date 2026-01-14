@@ -18,8 +18,6 @@ namespace HexaSort.GameStateMachine.GameStates
                 
                 if (targetCell != null)
                     _gameManager.BoosterController.OnHexaCellClicked(targetCell);
-                
-                _gameManager.ChangeState(GameState.MAIN_PLAY);
             }
         }
 

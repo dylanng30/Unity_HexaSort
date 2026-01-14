@@ -1,3 +1,4 @@
+using System;
 using DG.Tweening;
 using UnityEngine;
 
@@ -48,13 +49,29 @@ public static class Effects
         target.anchoredPosition = startPos;
         sequence.Join(target.DOAnchorPos(finalPos, duration));
     }
-
-    public static void DoInverseNotificationFX(RectTransform target, float duration, out Sequence sequence)
+    
+    public static void DoArcMove(Transform target, Vector3 endPos, float duration, float jumpPower, Action onComplete = null)
     {
-        sequence = DOTween.Sequence();
-        float height = target.rect.height;
-        Vector2 finalPos = target.anchoredPosition +  new Vector2(0, -height);
-        sequence.Join(target.DOAnchorPos(finalPos, duration));
+        Vector3 lastPos = target.position;
+
+        target.DOJump(endPos, jumpPower, 1, duration)
+            .SetEase(Ease.Linear)
+            .OnUpdate(() =>
+            {
+                Vector3 currentPos = target.position;
+                Vector3 direction = currentPos - lastPos;
+                
+                if (direction.sqrMagnitude > 0.0001f)
+                {
+                    target.rotation = Quaternion.LookRotation(direction);
+                }
+
+                lastPos = currentPos;
+            })
+            .OnComplete(() =>
+            {
+                onComplete?.Invoke();
+            });
     }
     
 }

@@ -15,5 +15,5 @@ MonoBehaviour:
   BoosterName: "Si\xEAu t\xEAn l\u1EEDa"
   BoosterDescription: "Ph\xE1 huy v\xF9ng l\xE2n c\xE2n xung quanh 1 \xF4"
   BoosterType: 1
-  BoosterIcon: {fileID: 0}
+  BoosterIcon: {fileID: 21300000, guid: 01c918b610c623a41b4955a63c74dc21, type: 3}
   price: 0

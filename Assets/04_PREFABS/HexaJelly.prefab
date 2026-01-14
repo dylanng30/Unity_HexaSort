@@ -98,7 +98,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 5c7a4fc401984c144bae17564dca7b3c, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 45246dd2be3e2524abcec3996345c970, type: 2}
+      objectReference: {fileID: 2100000, guid: 9643a497691cc0c46a909e0e429df490, type: 2}
     - target: {fileID: 919132149155446097, guid: 5c7a4fc401984c144bae17564dca7b3c, type: 3}
       propertyPath: m_Name
       value: Unity_HexaSort

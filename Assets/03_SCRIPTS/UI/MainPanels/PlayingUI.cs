@@ -8,10 +8,13 @@ namespace HexaSort.UI.MainPanels
     {
         private UIManager _uiManager;
         
+        [SerializeField] private Button _pauseButton;
+        
 
         public void Setup(UIManager uiManager)
         {
             _uiManager = uiManager;
+            _pauseButton.onClick.AddListener(Pause);
         }
 
         public void Show()
@@ -22,6 +25,11 @@ namespace HexaSort.UI.MainPanels
         public void Hide()
         {
             gameObject.SetActive(false);
+        }
+
+        private void Pause()
+        {
+            _uiManager.GameManager.ChangeState(GameState.PAUSE);
         }
 
     }

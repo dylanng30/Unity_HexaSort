@@ -17,6 +17,9 @@ namespace HexaSort.Boosters._04_Presentation.Controllers
         [SerializeField] private BoosterButton _boosterButtonPrefab;
         [SerializeField] private Transform _boosterContainer;
         [SerializeField] private HexaBoard _board;
+
+        [SerializeField] private Transform _rocketSpawner;
+        [SerializeField] private GameObject _rocketPrefab;
         
         private Dictionary<BoosterType, BoosterSO> _boosterDataDic;
         private List<BoosterButton> _boosterButtons;
@@ -51,25 +54,35 @@ namespace HexaSort.Boosters._04_Presentation.Controllers
             currentLogic = GetCurrentBoosterLogic(so.BoosterType);
             
             isTargeting = true;
-            //Do Logic
         }
 
         public void OnHexaCellClicked(HexaCell cell)
         {
-            if(isTargeting)
+            if (!isTargeting)
+                return;
+            
+            var rocket = Instantiate(_rocketPrefab, _rocketSpawner.position,  Quaternion.identity);
+            Effects.DoArcMove(rocket.transform, cell.transform.position, 2f, 5f, () =>
+            {
+                Destroy(rocket.gameObject);
                 currentLogic.Execute(_board, cell, OnBoosterFinished);
+            });
         }
         
         private void OnBoosterFinished()
         {
             Debug.Log(currentSelectedBooster.BoosterType);
-            GameContext.BoosterInventory[currentSelectedBooster.BoosterType]--;
+            
+            //Test
+            //GameContext.BoosterInventory[currentSelectedBooster.BoosterType]--;
             
             isTargeting = false;
             currentLogic = null;
             currentSelectedBooster = null;
             
             UpdateButtonViews();
+            
+            _gameManager.ChangeState(GameState.MAIN_PLAY);
         }
         
         private void LoadBoosterDatas()

@@ -1,6 +1,6 @@
 {
-    "Level": 3,
-    "NormalRocket": 0,
-    "SuperRocket": 0,
+    "Level": 1,
+    "NormalRocket": 1,
+    "SuperRocket": 1,
     "Swap": 1
 }
