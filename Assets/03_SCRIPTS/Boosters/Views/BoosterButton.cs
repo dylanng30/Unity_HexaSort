@@ -1,5 +1,5 @@
 ﻿using System;
-using HexaSort.Boosters._04_Presentation.Controllers;
+using HexaSort.Boosters.Controllers;
 using HexaSort.Boosters.Data;
 using TMPro;
 using UnityEngine;

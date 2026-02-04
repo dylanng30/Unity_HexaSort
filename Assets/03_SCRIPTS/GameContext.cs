@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using HexaSort.Boosters;
+using HexaSort.Boosters.Data;
 
 namespace HexaSort
 {

@@ -8,7 +8,7 @@ using HexaSort.Utilities;
 using TMPro;
 using UnityEngine;
 
-namespace HexaSort.Boosters._04_Presentation.Controllers
+namespace HexaSort.Boosters.Controllers
 {
     public class BoosterController : MonoBehaviour
     {

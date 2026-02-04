@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using HexaSort.Boosters;
-using HexaSort.Boosters._04_Presentation.Controllers;
+using HexaSort.Boosters.Controllers;
+using HexaSort.Boosters.Data;
 using HexaSort.GameStateMachine;
 using HexaSort.GameStateMachine.GameStates;
 using HexaSort.GameStateMachine.Interfaces;

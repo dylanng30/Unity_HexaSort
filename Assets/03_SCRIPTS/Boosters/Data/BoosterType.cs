@@ -1,4 +1,4 @@
-﻿namespace HexaSort.Boosters
+﻿namespace HexaSort.Boosters.Data
 {
     public enum BoosterType
     {
