@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using HexaSort.Utilitilies;
+using HexaSort.Utilities;
 
 namespace HexaSort.Boosters.BoosterLogics
 {

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace HexaSort.Utilitilies
+namespace HexaSort.Utilities
 {
     public class Constants : MonoBehaviour
     {

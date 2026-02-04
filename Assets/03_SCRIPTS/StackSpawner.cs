@@ -1,7 +1,5 @@
 using System.Collections.Generic;
-using HexaSort.GameStateMachine.GameStates;
-using HexaSort.Level;
-using HexaSort.Utilitilies;
+using HexaSort.Utilities;
 using UnityEngine;
 
 public class StackSpawner : MonoBehaviour
@@ -53,16 +51,6 @@ public class StackSpawner : MonoBehaviour
         }
         //ObjectPool
     }
-    /*private void StackPlacedCallBack()
-    {
-        stackCounter++;
-
-        if(stackCounter >= spawnPoints.Length)
-        {
-            stackCounter = 0;
-            CreateStacks();
-        }
-    }*/
 
     private void CreateStacks()
     {

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using DG.Tweening;
 using HexaSort.GameStateMachine.GameStates;
 using HexaSort.Level;
-using HexaSort.Utilitilies;
+using HexaSort.Utilities;
 using UnityEngine;
 
 public class MergeManager : MonoBehaviour

@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using HexaSort;
-using HexaSort.Utilitilies;
+using HexaSort.Utilities;
 using TMPro;
 using UnityEngine;
 

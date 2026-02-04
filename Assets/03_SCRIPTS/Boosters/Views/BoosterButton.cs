@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace HexaSort.Boosters._04_Presentation.UIs
+namespace HexaSort.Boosters.Views
 {
     public class BoosterButton : MonoBehaviour
     {

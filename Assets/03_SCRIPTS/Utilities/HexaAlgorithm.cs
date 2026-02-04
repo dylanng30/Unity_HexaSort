@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace HexaSort.Utilitilies
+namespace HexaSort.Utilities
 {
     public static class HexaAlgorithm
     {

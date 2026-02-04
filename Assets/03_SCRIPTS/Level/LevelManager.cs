@@ -15,7 +15,6 @@ namespace HexaSort.Level
         private IMapGenerator _currentMapGenerator;
         public HexaBoard _board;
         [SerializeField] private StackSpawner _stackSpawner;
-        //[SerializeField] private MergeManager _mergeManager;
         
         [Header("---UI---")]
         [SerializeField] private TextMeshProUGUI _moveText;

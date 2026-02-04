@@ -1,6 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using HexaSort.Utilitilies;
+using HexaSort.Utilities;
 using UnityEngine;
 
 public class HexaCell : MonoBehaviour

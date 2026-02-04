@@ -1,10 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using HexaSort.Boosters._04_Presentation.UIs;
+using HexaSort.Boosters.Views;
 using HexaSort.Boosters.BoosterLogics;
 using HexaSort.Boosters.Data;
-using HexaSort.Utilitilies;
+using HexaSort.Utilities;
 using TMPro;
 using UnityEngine;
 
@@ -73,8 +73,7 @@ namespace HexaSort.Boosters._04_Presentation.Controllers
         {
             Debug.Log(currentSelectedBooster.BoosterType);
             
-            //Test
-            //GameContext.BoosterInventory[currentSelectedBooster.BoosterType]--;
+            GameContext.BoosterInventory[currentSelectedBooster.BoosterType]--;
             
             isTargeting = false;
             currentLogic = null;
