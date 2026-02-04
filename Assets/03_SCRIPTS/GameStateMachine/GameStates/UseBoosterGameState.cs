@@ -1,4 +1,4 @@
-﻿using HexaSort.Utilitilies;
+﻿using HexaSort.Utilities;
 using UnityEngine;
 
 namespace HexaSort.GameStateMachine.GameStates

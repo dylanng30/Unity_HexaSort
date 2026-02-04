@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using HexaSort.ObjectPool;
-using HexaSort.Utilitilies;
+using HexaSort.Utilities;
 using UnityEngine;
 
 namespace HexaSort.MapGenerators

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using HexaSort.Boosters;
-using HexaSort.Boosters._04_Presentation.Controllers;
+using HexaSort.Boosters.Controllers;
 using HexaSort.GameStateMachine;
 using HexaSort.GameStateMachine.GameStates;
 using HexaSort.GameStateMachine.Interfaces;
@@ -15,8 +15,7 @@ namespace HexaSort
 {
     public enum GameState
     {
-        LOGO,
-        MAIN_MENU,
+        LOGO, MAIN_MENU,
         LEVEL_BRIEF,
         MAIN_PLAY,
         MERGE,
@@ -61,8 +60,6 @@ namespace HexaSort
             _uiManager.Setup(this);
             _levelManager.Setup(this);
             BoosterController.Setup(this);
-            
-            //MergeController.Setup(_levelManager);
             MergeManager.Setup(_levelManager);
             
             ChangeState(CurrentState);
@@ -93,7 +90,10 @@ namespace HexaSort
         public void ChangeState(GameState newState)
         {
             CurrentState = newState;
+<<<<<<< Updated upstream
             Debug.Log($"[GAME MANAGER] Changing state {newState}");
+=======
+>>>>>>> Stashed changes
             GameStateChange.Invoke(CurrentState);
             
             if (_gameStates.ContainsKey(newState))

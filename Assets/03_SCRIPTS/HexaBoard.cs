@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using HexaSort.Level;
 using HexaSort.MapGenerators;
 using HexaSort.ObjectPool;
-using HexaSort.Utilitilies;
+using HexaSort.Utilities;
 using UnityEngine;
 
 namespace HexaSort
