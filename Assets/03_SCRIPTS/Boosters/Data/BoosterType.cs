@@ -4,6 +4,6 @@
     {
         NormalRocket,
         SuperRocket,
-        Swap,
+        Reverse,
     }
 }

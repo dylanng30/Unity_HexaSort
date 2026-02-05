@@ -2,12 +2,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using HexaSort;
+using HexaSort.Boosters.Data;
 using HexaSort.GameStateMachine.GameStates;
 using HexaSort.Level;
 using HexaSort.Utilities;
 using UnityEngine;
 
-public class MergeManager : MonoBehaviour
+public class MergeController : MonoBehaviour
 {
     private LevelManager _levelManager;
     private List<HexaCell> updatedHexaCells = new List<HexaCell>();
@@ -22,12 +24,12 @@ public class MergeManager : MonoBehaviour
         updatedHexaCells.Clear();
     }
     
-    public void ExecuteMergeSequence(HexaCell startCell, Action onComplete)
+    public void ExecuteMergeSequence(HexaCell startCell, Action onComplete = null)
     {
         StartCoroutine(StackPlacedCoroutine(startCell, onComplete));
     }
 
-    private IEnumerator StackPlacedCoroutine(HexaCell hexaCell, Action onComplete)
+    private IEnumerator StackPlacedCoroutine(HexaCell hexaCell, Action onComplete = null)
     {
         _currentComboCount = 0;
         updatedHexaCells.Add(hexaCell);
@@ -190,6 +192,13 @@ public class MergeManager : MonoBehaviour
 
         //Combo count
         _currentComboCount++;
+        
+        if (_currentComboCount == 2)
+            GameContext.BoosterInventory[BoosterType.Reverse]++;
+        else if (_currentComboCount == 3)
+            GameContext.BoosterInventory[BoosterType.NormalRocket]++;
+        else if (_currentComboCount >= 4)
+            GameContext.BoosterInventory[BoosterType.SuperRocket]++;
 
         while (similarHexaJellies.Count > 0)
         {
@@ -197,7 +206,6 @@ public class MergeManager : MonoBehaviour
             similarHexaJellies[0].SetParent(null);
             hexaCell.HexaStack.Remove(similarHexaJellies[0]);
             similarHexaJellies[0].Clear();
-            //DestroyImmediate(similarHexaJellies[0].gameObject);
             similarHexaJellies.RemoveAt(0);
 
             //Add scores based on combo

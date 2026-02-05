@@ -15,8 +15,6 @@ public class LevelBriefUI : MonoBehaviour, IMainPanel
     [SerializeField] private Transform _modal;
     [SerializeField] private TextMeshProUGUI _titleText;
     [SerializeField] private TextMeshProUGUI _targetScoreText;
-    [SerializeField] private TextMeshProUGUI _moveLimitText;
-    [SerializeField] private TextMeshProUGUI _timeLimitText;
 
     private Sequence _currentSequence;
     public void Setup(UIManager uiManager)
@@ -56,17 +54,6 @@ public class LevelBriefUI : MonoBehaviour, IMainPanel
                 
             if (_targetScoreText) 
                 _targetScoreText.text = currentLevel.TargetGoal.ToString();
-
-            if (_moveLimitText) 
-                _moveLimitText.text = currentLevel.MoveLimit.ToString();
-
-            if (_timeLimitText)
-            {
-                if (currentLevel.TimeLimit > 0)
-                    _timeLimitText.text = currentLevel.TimeLimit + "s";
-                else
-                    _timeLimitText.text = "No Limit";
-            }
         }
     }
 

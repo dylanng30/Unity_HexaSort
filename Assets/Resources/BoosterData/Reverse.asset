@@ -10,10 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c67d23344d1e48e38dd3674ed3d591e3, type: 3}
-  m_Name: Swap
+  m_Name: Reverse
   m_EditorClassIdentifier: 
-  BoosterName: 
-  BoosterDescription: 
+  BoosterName: REVERSE
+  BoosterDescription: "\u0110\u1EA3o ng\u01B0\u1EE3c c\xE1c kh\u1ED1i th\u1EA1ch
+    trong 1 \xF4"
   BoosterType: 2
-  BoosterIcon: {fileID: 0}
+  BoosterIcon: {fileID: 21300000, guid: 1e2634209a78f83488d47e740ea1a992, type: 3}
   price: 0

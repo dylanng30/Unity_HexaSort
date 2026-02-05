@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c67d23344d1e48e38dd3674ed3d591e3, type: 3}
   m_Name: SuperRocket
   m_EditorClassIdentifier: 
-  BoosterName: "Si\xEAu t\xEAn l\u1EEDa"
+  BoosterName: SUPER ROCKET
   BoosterDescription: "Ph\xE1 huy v\xF9ng l\xE2n c\xE2n xung quanh 1 \xF4"
   BoosterType: 1
   BoosterIcon: {fileID: 21300000, guid: 01c918b610c623a41b4955a63c74dc21, type: 3}

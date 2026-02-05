@@ -61,6 +61,7 @@ namespace HexaSort.Boosters.Controllers
             if (!isTargeting)
                 return;
             
+            _gameManager.LastPlacedHexaCell = cell;
             var rocket = Instantiate(_rocketPrefab, _rocketSpawner.position,  Quaternion.identity);
             Effects.DoArcMove(rocket.transform, cell.transform.position, 2f, 5f, () =>
             {
@@ -74,14 +75,18 @@ namespace HexaSort.Boosters.Controllers
             Debug.Log(currentSelectedBooster.BoosterType);
             
             GameContext.BoosterInventory[currentSelectedBooster.BoosterType]--;
+
+            Clear();
+            UpdateButtonViews();
             
+            _gameManager.ChangeState(GameState.MERGE);
+        }
+
+        public void Clear()
+        {
             isTargeting = false;
             currentLogic = null;
             currentSelectedBooster = null;
-            
-            UpdateButtonViews();
-            
-            _gameManager.ChangeState(GameState.MAIN_PLAY);
         }
         
         private void LoadBoosterDatas()
@@ -105,7 +110,7 @@ namespace HexaSort.Boosters.Controllers
             UpdateButtonViews();
         }
 
-        private void UpdateButtonViews()
+        public void UpdateButtonViews()
         {
             foreach (var button in _boosterButtons)
             {
@@ -124,8 +129,8 @@ namespace HexaSort.Boosters.Controllers
                     return new NormalRocketLogic();
                 case BoosterType.SuperRocket:
                     return new SuperRocketLogic();
-                case BoosterType.Swap:
-                    return new SwapLogic();
+                case BoosterType.Reverse:
+                    return new ReverseLogic();
                 default:
                     return new EmptyBoosterLogic();
             }

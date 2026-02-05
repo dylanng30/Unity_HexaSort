@@ -84,12 +84,7 @@ namespace HexaSort.Level
             
             //Map
             _stackSpawner.Setup(levelData.MiniumHexaAmount, levelData.MaxiumHexaAmount, levelData.Materials);
-            //_hexaGridGenerator.CreateGrid(levelData.GridWidth);
-            
             _board?.Setup(_currentMapGenerator, _currentLevelData);
-            
-            //Logic gameplay
-            //_mergeManager.Setup(this);
         }
         
 

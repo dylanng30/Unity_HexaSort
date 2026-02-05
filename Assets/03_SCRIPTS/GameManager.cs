@@ -38,7 +38,7 @@ namespace HexaSort
         public GameState CurrentState { get; private set; }
         private string saveFileName = "player_save.json";
         
-        [field: SerializeField] public MergeManager MergeManager { get; private set; }
+        [field: SerializeField] public MergeController MergeController { get; private set; }
         [field: SerializeField] public BoosterController BoosterController { get; private set; }
         
         private StateMachine _stateMachine;
@@ -63,8 +63,7 @@ namespace HexaSort
             _levelManager.Setup(this);
             BoosterController.Setup(this);
             
-            //MergeController.Setup(_levelManager);
-            MergeManager.Setup(_levelManager);
+            MergeController.Setup(_levelManager);
             
             ChangeState(CurrentState);
         }
@@ -122,7 +121,7 @@ namespace HexaSort
             GameContext.CurrentLevel = loadedData.Level;
             GameContext.BoosterInventory[BoosterType.NormalRocket] = loadedData.NormalRocket;
             GameContext.BoosterInventory[BoosterType.SuperRocket] = loadedData.SuperRocket;
-            GameContext.BoosterInventory[BoosterType.Swap] = loadedData.Swap;
+            GameContext.BoosterInventory[BoosterType.Reverse] = loadedData.Swap;
         }
         public void SaveGame()
         {
@@ -131,7 +130,7 @@ namespace HexaSort
                 Level = GameContext.CurrentLevel,
                 NormalRocket = GameContext.BoosterInventory[BoosterType.NormalRocket],
                 SuperRocket = GameContext.BoosterInventory[BoosterType.SuperRocket],
-                Swap = GameContext.BoosterInventory[BoosterType.Swap]
+                Swap = GameContext.BoosterInventory[BoosterType.Reverse]
             };
             SaveSystem.Save<PlayerData>(saveData, saveFileName);
         }

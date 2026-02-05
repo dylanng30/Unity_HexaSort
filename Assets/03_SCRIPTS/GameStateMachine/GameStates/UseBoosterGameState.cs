@@ -15,9 +15,18 @@ namespace HexaSort.GameStateMachine.GameStates
             if (Input.GetMouseButtonDown(0))
             {
                 HexaCell targetCell = GetHexaCell();
-                
+
                 if (targetCell != null)
+                {
                     _gameManager.BoosterController.OnHexaCellClicked(targetCell);
+                    _gameManager.MergeController.ExecuteMergeSequence(targetCell);
+                }
+                else
+                {
+                    _gameManager.BoosterController.Clear();
+                    _gameManager.ChangeState(GameState.MAIN_PLAY);
+                }
+                    
             }
         }
 

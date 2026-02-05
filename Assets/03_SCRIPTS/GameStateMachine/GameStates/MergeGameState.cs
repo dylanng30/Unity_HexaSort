@@ -21,7 +21,13 @@ namespace HexaSort.GameStateMachine.GameStates
                 return;
             }
             
-            _gameManager.MergeManager.ExecuteMergeSequence(startCell, OnMergeFinished);
+            _gameManager.MergeController.ExecuteMergeSequence(startCell, OnMergeFinished);
+        }
+
+        public override void Update()
+        {
+            base.Update();
+            _gameManager.BoosterController.UpdateButtonViews();
         }
         
         private void OnMergeFinished()

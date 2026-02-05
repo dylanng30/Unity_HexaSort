@@ -32,6 +32,18 @@ public class HexaStack : MonoBehaviour
         UpdateTopCountText();
     }
 
+    public void Reverse()
+    {
+        for (int i = 0; i < Jellies.Count; i++)
+        {
+            var jelly = Jellies[i];
+            jelly.transform.localPosition = Vector3.up * (Jellies.Count - 1 - i) * Constants.HeightHexaModel;
+        }
+        Jellies.Reverse();
+        UpdateTopCountText();
+        UpdateCanvas();
+    }
+
     public void Add(HexaJelly jelly)
     {
         if(Jellies == null)

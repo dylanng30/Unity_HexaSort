@@ -4,13 +4,12 @@ using HexaSort.Utilitilies;
 
 namespace HexaSort.Boosters.BoosterLogics
 {
-    public class SwapLogic : IBoostLogic
+    public class ReverseLogic : IBoostLogic
     {
         public void Execute(HexaBoard board, HexaCell cell, Action onComplete)
         {
-            cell.Clear();
-            
-            onComplete.Invoke();
+            cell.HexaStack.Reverse();
+            onComplete?.Invoke();
         }
     }
 }
