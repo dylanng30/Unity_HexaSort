@@ -31,7 +31,6 @@ Dự án cá nhân mô phỏng lại cơ chế xếp chồng và hợp nhất tr
 ### 3. Design Patterns ứng dụng
 * **Strategy Pattern:** Áp dụng cho hệ thống Booster thông qua interface `IBoostLogic`.
     * Dễ dàng thêm logic mới (`NormalRocketLogic`, `SuperRocketLogic`, `ReverseLogic`) mà không cần sửa đổi `BoosterController`.
-* **Object Pooling:** Tự triển khai `BaseObjectPool<T>` để quản lý vòng đời của `HexaCell` và `HexaJelly`, giảm thiểu Garbage Collection (GC) khi sinh/hủy đối tượng liên tục.
 * **Singleton Pattern:** Sử dụng cho các lớp quản lý duy nhất như `BillboardManager` để tối ưu hóa việc truy cập global.
 
 ### 4. Hệ thống bổ trợ
