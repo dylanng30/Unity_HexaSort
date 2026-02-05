@@ -1,6 +1,4 @@
-[![Xem Demo][(https://img.youtube.com/vi/dQw4w9WgXcQ/0.jpg)](https://www.youtube.com/watch?v=dQw4w9WgXcQ)](https://youtu.be/zzloJZU1oU8)
-
-
+[![Xem Demo](https://img.youtube.com/vi/zzloJZU1oU8/0.jpg)](https://www.youtube.com/watch?v=zzloJZU1oU8)
 
 # HexaSort Clone - Unity Project
 Dự án cá nhân mô phỏng lại cơ chế xếp chồng và hợp nhất trên lưới lục giác, tập trung vào việc áp dụng và các **Design Patterns** để xây dựng hệ thống có khả năng mở rộng và dễ bảo trì.
