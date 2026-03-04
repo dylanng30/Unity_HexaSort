@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2801668449732607244}
+  - component: {fileID: 263108929438959775}
   m_Layer: 0
   m_Name: RocketPrefab
   m_TagString: Untagged
@@ -32,6 +33,18 @@ Transform:
   - {fileID: 4448474461024773221}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &263108929438959775
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2980239702773050367}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7c53067b41b33649a8f21311e0b07a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &4194714416194388878
 PrefabInstance:
   m_ObjectHideFlags: 0

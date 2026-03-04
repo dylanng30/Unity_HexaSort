@@ -36,8 +36,8 @@ public class HexaCell : MonoBehaviour
     {
         if (HexaStack == null)
             return;
-        
-        Destroy(HexaStack.gameObject);
+
+        HexaStack.ReturnToPool();
         HexaStack = null;
     }
 }

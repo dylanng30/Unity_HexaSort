@@ -1,7 +1,9 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using HexaSort;
+using HexaSort.ObjectPool;
 using HexaSort.Utilities;
 using TMPro;
 using UnityEngine;
@@ -9,16 +11,26 @@ using UnityEngine;
 public class HexaStack : MonoBehaviour
 {
     public List<HexaJelly> Jellies {get; private set;}
-    
-    public Material GetTopHexaMaterial() => Jellies[Jellies.Count - 1].Material;
-    
+
+    public Material GetTopHexaMaterial() => (Jellies != null && Jellies.Count > 0) ? Jellies[Jellies.Count - 1].Material : null;
+
     [SerializeField] private Transform _canvas;
     [SerializeField] private TextMeshProUGUI _topCountText;
+
+    private BaseObjectPool<HexaStack> _pool;
 
     private void OnEnable()
     {
         if(BillboardManager.Instance != null)
             BillboardManager.Instance.Register(_canvas);
+
+        if (Jellies == null)
+            Jellies = new List<HexaJelly>();
+        else
+            Jellies.Clear();
+
+        UpdateCanvas();
+        UpdateTopCountText();
     }
     private void OnDisable()
     {
@@ -30,6 +42,38 @@ public class HexaStack : MonoBehaviour
     {
         UpdateCanvas();
         UpdateTopCountText();
+    }
+
+    public void RegisterPool(BaseObjectPool<HexaStack> pool)
+    {
+        _pool = pool;
+    }
+
+    public void ReturnToPool()
+    {
+        if (Jellies != null && Jellies.Count > 0)
+        {
+            foreach (var jelly in Jellies.ToList())
+            {
+                jelly.Clear();
+            }
+            Jellies.Clear();
+        }
+        if (transform.parent != null)
+        {
+            var cell = transform.parent.GetComponent<HexaCell>();
+            if (cell != null && cell.HexaStack == this)
+            {
+                cell.RegisterStack(null);
+            }
+        }
+
+        transform.SetParent(null);
+
+        if (_pool != null)
+            _pool.Return(this);
+        else
+            Destroy(gameObject);
     }
 
     public void Reverse()
@@ -76,14 +120,14 @@ public class HexaStack : MonoBehaviour
         
         if (Jellies.Count <= 0)
         {
-            DestroyImmediate(gameObject);
+            ReturnToPool();
         }
     }
     
     private void UpdateCanvas()
     {
-        if(_canvas == null) return; 
-        
+        if(_canvas == null) return;
+        int count = Jellies != null ? Jellies.Count : 0;
         _canvas.localPosition = Vector3.up * Jellies.Count * Constants.HeightHexaModel;
     }
 
@@ -95,10 +139,18 @@ public class HexaStack : MonoBehaviour
     
     private int GetTopCount()
     {
+        if (Jellies == null || Jellies.Count == 0) return 0;
+
         int topCount = 0;
+        var topMat = GetTopHexaMaterial();
+
+        if (topMat == null) return 0;
+
         for (int i = Jellies.Count - 1; i >= 0; i--)
         {
-            if(Jellies[i].Material.color != GetTopHexaMaterial().color)
+            if (Jellies[i] == null) continue;
+
+            if (Jellies[i].Material.color != topMat.color)
                 break;
             topCount++;
         }

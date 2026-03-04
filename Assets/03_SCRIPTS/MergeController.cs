@@ -36,7 +36,11 @@ public class MergeController : MonoBehaviour
         
         while (updatedHexaCells.Count > 0)
         {
-            yield return CheckMerge(updatedHexaCells[0]);
+            if (updatedHexaCells[0] != null)
+                yield return CheckMerge(updatedHexaCells[0]);
+
+            if (updatedHexaCells.Count > 0 && updatedHexaCells[0] == hexaCell)
+                updatedHexaCells.RemoveAt(0);
         }
         
         _levelManager.RemoveMove();
@@ -62,6 +66,11 @@ public class MergeController : MonoBehaviour
         }
 
         Material hexaCellTopMaterial = hexaCell.HexaStack.GetTopHexaMaterial();
+
+        if (hexaCellTopMaterial == null)
+        {
+            yield break;
+        }
 
         List<HexaCell> similarNeighborHexaCells = GetSimilarNeighborCells(hexaCellTopMaterial, neighborHexaCells.ToArray());
         
@@ -96,10 +105,13 @@ public class MergeController : MonoBehaviour
             
             if (neighborCell.HexaStack.Jellies == null || neighborCell.HexaStack.Jellies.Count == 0)
                 continue;
-            
+
             Material neighborCellTopMaterial = neighborCell.HexaStack.GetTopHexaMaterial();
 
-            if (neighborCellTopMaterial.color == hexaCellTopMaterial.color)
+            if (neighborCellTopMaterial == null)
+                continue;
+
+            if (hexaCellTopMaterial != null && neighborCellTopMaterial.color == hexaCellTopMaterial.color)
                 similarNeighborHexaCells.Add(neighborCell);
         }
         
@@ -118,6 +130,8 @@ public class MergeController : MonoBehaviour
             {
                 HexaJelly jelly = neighborStack.Jellies[i];
 
+                if (jelly == null || jelly.Material == null) continue;
+
                 if (jelly.Material.color != hexaCellTopMaterial.color)
                     break;
                 
@@ -135,6 +149,8 @@ public class MergeController : MonoBehaviour
         {
             HexaStack neighborStack = neighborCell.HexaStack;
 
+            if (neighborStack == null) continue;
+
             foreach (HexaJelly jelly in hexaJelliesToAdd)
             {
                 if (neighborStack.Contains(jelly))
@@ -148,6 +164,9 @@ public class MergeController : MonoBehaviour
     private IEnumerator MoveHexaJelliesToStack(HexaCell hexaCell, List<HexaJelly> hexaJelliesToAdd)
     {
         float timeGap = 0.5f;
+
+        if (hexaCell.HexaStack == null || hexaCell.HexaStack.Jellies == null) yield break;
+
         float initialY = hexaCell.HexaStack.Jellies.Count * Constants.HeightHexaModel;
 
         for (int i = 0; i < hexaJelliesToAdd.Count; i++)
@@ -166,6 +185,8 @@ public class MergeController : MonoBehaviour
 
     private IEnumerator CheckCompleteStack(HexaCell hexaCell, Material topMaterial)
     {
+        if (hexaCell.HexaStack == null || hexaCell.HexaStack.Jellies == null) yield break;
+
         if (hexaCell.HexaStack.Jellies.Count < Constants.MergeThreshold)
         {
             yield break;
@@ -176,6 +197,8 @@ public class MergeController : MonoBehaviour
         for (int i = hexaCell.HexaStack.Jellies.Count - 1; i >= 0; i--)
         {
             HexaJelly jelly = hexaCell.HexaStack.Jellies[i];
+
+            if (jelly == null || jelly.Material == null) continue;
 
             if (jelly.Material.color != topMaterial.color)
             {
@@ -203,12 +226,15 @@ public class MergeController : MonoBehaviour
         while (similarHexaJellies.Count > 0)
         {
             yield return null;
-            similarHexaJellies[0].SetParent(null);
-            hexaCell.HexaStack.Remove(similarHexaJellies[0]);
-            similarHexaJellies[0].Clear();
+            var jellyToRemove = similarHexaJellies[0];
+            if (jellyToRemove != null)
+            {
+                jellyToRemove.SetParent(null);
+                hexaCell.HexaStack.Remove(jellyToRemove);
+                jellyToRemove.Clear();
+            }
             similarHexaJellies.RemoveAt(0);
 
-            //Add scores based on combo
             int scoreToAdd = _scorePerJelly * _currentComboCount;
             _levelManager.AddScore(scoreToAdd);
         }

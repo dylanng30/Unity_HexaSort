@@ -1,9 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using HexaSort.Boosters.Views;
 using HexaSort.Boosters.BoosterLogics;
 using HexaSort.Boosters.Data;
+using HexaSort.Boosters.Views;
+using HexaSort.ObjectPool;
 using HexaSort.Utilities;
 using TMPro;
 using UnityEngine;
@@ -19,7 +20,7 @@ namespace HexaSort.Boosters.Controllers
         [SerializeField] private HexaBoard _board;
 
         [SerializeField] private Transform _rocketSpawner;
-        [SerializeField] private GameObject _rocketPrefab;
+        [SerializeField] private Rocket _rocketPrefab;
         
         private Dictionary<BoosterType, BoosterSO> _boosterDataDic;
         private List<BoosterButton> _boosterButtons;
@@ -29,10 +30,18 @@ namespace HexaSort.Boosters.Controllers
         private IBoostLogic currentLogic;
         private bool isTargeting = false;
 
+        private BaseObjectPool<Rocket> _rocketPool;
+
         public void Setup(GameManager gameManager)
         {
             _gameManager = gameManager;
             _boosterButtons = new List<BoosterButton>();
+
+            if (_rocketPrefab != null)
+            {
+                _rocketPool = new BaseObjectPool<Rocket>(_rocketPrefab, _rocketSpawner, 1);
+            }
+
             LoadBoosterDatas();
             StartCoroutine(CreateBoosterButtons());
         }
@@ -62,10 +71,16 @@ namespace HexaSort.Boosters.Controllers
                 return;
             
             _gameManager.LastPlacedHexaCell = cell;
-            var rocket = Instantiate(_rocketPrefab, _rocketSpawner.position,  Quaternion.identity);
+
+            var rocket = _rocketPool.Get();
+            rocket.transform.position = _rocketSpawner.position;
+            rocket.transform.rotation = Quaternion.identity;
+
+            rocket.RegisterPool(_rocketPool);
+
             Effects.DoArcMove(rocket.transform, cell.transform.position, 2f, 5f, () =>
             {
-                Destroy(rocket.gameObject);
+                rocket.ReturnToPool();
                 currentLogic.Execute(_board, cell, OnBoosterFinished);
             });
         }

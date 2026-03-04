@@ -19,6 +19,7 @@ namespace HexaSort.ObjectPool
             for (int i = 0; i < initialSize; i++)
             {
                 T obj = CreateNewObject();
+                obj.gameObject.SetActive(false);
             }
         }
 

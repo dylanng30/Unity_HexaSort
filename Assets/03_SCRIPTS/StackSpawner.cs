@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using HexaSort.ObjectPool;
 using HexaSort.Utilities;
 using UnityEngine;
 
@@ -14,7 +15,16 @@ public class StackSpawner : MonoBehaviour
     private Material[] _hexaMaterials;
 
     private int stackCounter;
-    
+
+    private BaseObjectPool<HexaJelly> jellyPool;
+    private BaseObjectPool<HexaStack> stackPool;
+
+    private void Awake()
+    {
+        jellyPool = new BaseObjectPool<HexaJelly>(hexaPrefab, transform, 50);
+        stackPool = new BaseObjectPool<HexaStack>(hexaStackPrefab, transform, 20);
+    }
+
     public void Setup(int miniumHexaAmount, int maxiumHexaAmount, Material[] hexaMaterials)
     {
         _miniumHexaAmount = miniumHexaAmount;
@@ -44,16 +54,26 @@ public class StackSpawner : MonoBehaviour
         
         foreach (Transform spawnPoint in spawnPoints)
         {
-            foreach (Transform child in spawnPoint)
+            for (int i = spawnPoint.childCount - 1; i >= 0; i--)
             {
-                Destroy(child.gameObject);
+                Transform child = spawnPoint.GetChild(i);
+                var stack = child.GetComponent<HexaStack>();
+
+                if (stack != null)
+                {
+                    stack.ReturnToPool();
+                }
+                else
+                {
+                    Destroy(child.gameObject);
+                }
             }
         }
-        //ObjectPool
     }
 
     private void CreateStacks()
     {
+
         for (int i = 0; i < spawnPoints.Length; i++)
         {
             CreateStack(spawnPoints[i]);
@@ -62,11 +82,20 @@ public class StackSpawner : MonoBehaviour
 
     private void CreateStack(Transform spawnPoint)
     {
-        var hexaStack = Instantiate(hexaStackPrefab, spawnPoint.position, Quaternion.identity,spawnPoint);
+        var hexaStack = stackPool.Get();
+
+        hexaStack.transform.SetParent(spawnPoint);
+        hexaStack.transform.localPosition = Vector3.zero;
+        hexaStack.transform.localRotation = Quaternion.identity;
+        
         hexaStack.name = $"Stack { spawnPoint.GetSiblingIndex()}" ;
-        
+
+        hexaStack.RegisterPool(stackPool);
+
         int amount = Random.Range(_miniumHexaAmount, _maxiumHexaAmount);
-        
+
+        if (_hexaMaterials == null || _hexaMaterials.Length == 0) return;
+
         int firstMaterialCount = Random.Range(0, amount);
 
         Material[] materialArray = GetRandomMaterials();
@@ -74,29 +103,31 @@ public class StackSpawner : MonoBehaviour
         for (int i = 0; i < amount; i++)
         {
             Vector3 hexaPosition = spawnPoint.position + Vector3.up * i * Constants.HeightHexaModel;
-            
-            var hexaJelly = Instantiate(hexaPrefab, hexaPosition, Quaternion.identity, hexaStack.transform);
+
+            var hexaJelly = jellyPool.Get();
+
+            hexaJelly.transform.position = hexaPosition;
+            hexaJelly.transform.rotation = Quaternion.identity;
+
+            hexaJelly.RegisterPool(jellyPool);
+            hexaJelly.Material = i < firstMaterialCount ? materialArray[0] : materialArray[1];
+
             hexaStack.Add(hexaJelly);
             hexaJelly.RegisterStack(hexaStack);
-            hexaJelly.Material = i < firstMaterialCount ? materialArray[0] : materialArray[1];
         }
     }
 
     private Material[] GetRandomMaterials()
     {
-        List<Material> materialList = new List<Material>();
-        materialList.AddRange(_hexaMaterials);
+        if (_hexaMaterials.Length < 2) 
+            return new Material[] { _hexaMaterials[0], _hexaMaterials[0] };
 
-        if (materialList.Count <= 0)
-        {
-            Debug.LogError("There are no materials in stack");
-            return null;
-        }
-        
+        List<Material> materialList = new List<Material>(_hexaMaterials);
+
         Material firstMaterial = materialList[Random.Range(0, materialList.Count)];
         materialList.Remove(firstMaterial);
         Material secondMaterial = materialList[Random.Range(0, materialList.Count)];
-        
-        return new Material[]{firstMaterial, secondMaterial};
+
+        return new Material[] { firstMaterial, secondMaterial };
     }
 }
